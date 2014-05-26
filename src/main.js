@@ -29,7 +29,7 @@ function init() {
         animations: {dirt_1: 0, rock: 1, dirt_2: 16}
     };
     architectureTiles = new cjs.SpriteSheet(sprites);
-    dirt_1 = new cjs.Sprite(architectureTiles, "dirt_2");
+    dirt_1 = new cjs.Sprite(architectureTiles, "dirt_1");
     dirt_2 = new cjs.Sprite(architectureTiles, "dirt_2");
     rock = new cjs.Sprite(architectureTiles, "rock");
     dirt_2.x = 32;
