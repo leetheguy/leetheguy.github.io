@@ -30,7 +30,7 @@ function init() {
     };
     architectureTiles = new cjs.SpriteSheet(sprites);
     dirt = new cjs.Sprite(architectureTiles, "dirt_2");
-    rock = new cjs.Sprite(architectureTiles, "dirt_1");
+    rock = new cjs.Sprite(architectureTiles, "rock");
     rock.x = 32;
     stage.addChild(dirt, rock);
 }
