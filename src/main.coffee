@@ -16,6 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###
 
+stage = null
+
 init = ->
   stage = new cjs.Stage("demoCanvas")
   cjs.Ticker.addEventListener "tick", tick

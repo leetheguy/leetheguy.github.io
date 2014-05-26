@@ -17,10 +17,12 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-var cjs, init, tick;
+var cjs, init, stage, tick;
+
+stage = null;
 
 init = function() {
-  var architectureTiles, dirt_1, dirt_2, rock, sprites, stage;
+  var architectureTiles, dirt_1, dirt_2, rock, sprites;
   stage = new cjs.Stage("demoCanvas");
   cjs.Ticker.addEventListener("tick", tick);
   sprites = {
