@@ -17,7 +17,7 @@
 var cjs = createjs;
 var stage;
 var architectureTiles;
-var dirt, rock;
+var dirt_1, dirt_2, rock;
 
 function init() {
     stage = new cjs.Stage("demoCanvas");
@@ -29,10 +29,12 @@ function init() {
         animations: {dirt_1: 0, rock: 1, dirt_2: 16}
     };
     architectureTiles = new cjs.SpriteSheet(sprites);
-    dirt = new cjs.Sprite(architectureTiles, "dirt_2");
+    dirt_1 = new cjs.Sprite(architectureTiles, "dirt_2");
+    dirt_2 = new cjs.Sprite(architectureTiles, "dirt_2");
     rock = new cjs.Sprite(architectureTiles, "rock");
-    rock.x = 32;
-    stage.addChild(dirt, rock);
+    dirt_2.x = 32;
+    rock.x = 64;
+    stage.addChild(dirt_1, dirt_2, rock);
 }
 
 function tick(event) {
