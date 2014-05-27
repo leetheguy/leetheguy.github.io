@@ -34,4 +34,4 @@ newTile = function(x) {
   return tile;
 };
 
-//# sourceMappingURL=assetsLoader.map
+//# sourceMappingURL=AssetsLoader.map

@@ -20,7 +20,7 @@ cjs   = createjs
 stage = null
 app   = {}
 
-init = ->
+initGame = ->
   stage = new cjs.Stage("ternion")
 
   app.assets = loadAssets()

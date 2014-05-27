@@ -1,9 +1,9 @@
 {
   "version": 3,
-  "file": "commands.js",
+  "file": "Commands.js",
   "sourceRoot": "",
   "sources": [
-    "commands.coffee"
+    "Commands.coffee"
   ],
   "names": [],
   "mappings": ";AAAA"

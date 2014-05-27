@@ -1,9 +1,9 @@
 {
   "version": 3,
-  "file": "events.js",
+  "file": "Events.js",
   "sourceRoot": "",
   "sources": [
-    "events.coffee"
+    "Events.coffee"
   ],
   "names": [],
   "mappings": ";AAAA"

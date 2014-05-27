@@ -12,7 +12,8 @@ initBoard = function() {
   board.spawnLevel = function() {
     return this.level += 1;
   };
+  board.spawnLevel();
   return board;
 };
 
-//# sourceMappingURL=board.map
+//# sourceMappingURL=Board.map

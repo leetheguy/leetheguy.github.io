@@ -5,4 +5,5 @@ initBoard = ->
   board.spawnLevel = ->
     @level += 1
 
+  board.spawnLevel()
   board

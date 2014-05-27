@@ -1,9 +1,9 @@
 {
   "version": 3,
-  "file": "screens.js",
+  "file": "Screens.js",
   "sourceRoot": "",
   "sources": [
-    "screens.coffee"
+    "Screens.coffee"
   ],
   "names": [],
   "mappings": ";AAAA"

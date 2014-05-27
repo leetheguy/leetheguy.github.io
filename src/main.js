@@ -17,7 +17,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-var app, cjs, init, stage, tick;
+var app, cjs, initGame, stage, tick;
 
 cjs = createjs;
 
@@ -25,7 +25,7 @@ stage = null;
 
 app = {};
 
-init = function() {
+initGame = function() {
   stage = new cjs.Stage("ternion");
   app.assets = loadAssets();
   app.board = initBoard();
@@ -36,4 +36,4 @@ tick = function(event) {
   stage.update();
 };
 
-//# sourceMappingURL=main.map
+//# sourceMappingURL=Main.map
