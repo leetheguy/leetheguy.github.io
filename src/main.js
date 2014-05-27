@@ -17,39 +17,23 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-var cjs, init, stage, tick;
+var app, cjs, init, stage, tick;
+
+cjs = createjs;
 
 stage = null;
 
+app = {};
+
 init = function() {
-  var architectureTiles, dirt_1, dirt_2, rock, sprites;
-  stage = new cjs.Stage("demoCanvas");
+  stage = new cjs.Stage("ternion");
+  app.assets = loadAssets();
+  app.board = initBoard();
   cjs.Ticker.addEventListener("tick", tick);
-  sprites = {
-    images: ["./assets/images/architecture.png"],
-    frames: {
-      width: 32,
-      height: 32
-    },
-    animations: {
-      dirt_1: 0,
-      rock: 1,
-      dirt_2: 16
-    }
-  };
-  architectureTiles = new cjs.SpriteSheet(sprites);
-  dirt_1 = new cjs.Sprite(architectureTiles, "dirt_1");
-  dirt_2 = new cjs.Sprite(architectureTiles, "dirt_2");
-  rock = new cjs.Sprite(architectureTiles, "rock");
-  dirt_2.x = 32;
-  rock.x = 64;
-  stage.addChild(dirt_1, dirt_2, rock);
 };
 
 tick = function(event) {
   stage.update();
 };
-
-cjs = createjs;
 
 //# sourceMappingURL=main.map
