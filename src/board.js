@@ -7,11 +7,20 @@ initBoard = function() {
   board = _.extend(board, {
     level: 0,
     tiles: [],
-    rooms: []
+    rooms: [],
+    spawnLevel: function() {
+      this.level += 1;
+      return this.populateRooms();
+    },
+    populateRooms: function() {},
+    buildTileArray: function() {},
+    populateRooms: function() {},
+    populateStaticTiles: function() {},
+    populateRoomTiles: function() {},
+    plotPaths: function() {},
+    populateDoors: function() {},
+    hideRooms: function() {}
   });
-  board.spawnLevel = function() {
-    return this.level += 1;
-  };
   board.spawnLevel();
   return board;
 };

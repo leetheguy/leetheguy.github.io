@@ -4,8 +4,17 @@ describe "Board", ->
   beforeEach ->
     initGame()
 
-  it "initializes with a new board at level 1", ->
-    expect(app.board.level).toEqual(1)
+  describe "initialization", ->
+    it "creates a new board at level 1", ->
+      expect(app.board.level).toEqual(1)
+
+    it "has no children", ->
+      app.board.addChild(new cjs.Shape())
+      app.board = initBoard()
+      expect(app.board.getNumChildren()).toEqual(0)
+
+  describe "room population", ->
+
 
 #  it "should be able to play a Song", ->
 #    player.play song

@@ -5,9 +5,17 @@ describe("Board", function() {
   beforeEach(function() {
     return initGame();
   });
-  return it("initializes with a new board at level 1", function() {
-    return expect(app.board.level).toEqual(1);
+  describe("initialization", function() {
+    it("creates a new board at level 1", function() {
+      return expect(app.board.level).toEqual(1);
+    });
+    return it("has no children", function() {
+      app.board.addChild(new cjs.Shape());
+      app.board = initBoard();
+      return expect(app.board.getNumChildren()).toEqual(0);
+    });
   });
+  return describe("room population", function() {});
 });
 
 //# sourceMappingURL=BoardSpec.map
