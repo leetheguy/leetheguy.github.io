@@ -25,4 +25,4 @@ initBoard = function() {
   return board;
 };
 
-//# sourceMappingURL=Board.map
+//# sourceMappingURL=board.map

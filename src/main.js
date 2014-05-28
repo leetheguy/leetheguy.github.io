@@ -36,4 +36,4 @@ tick = function(event) {
   stage.update();
 };
 
-//# sourceMappingURL=Main.map
+//# sourceMappingURL=main.map
