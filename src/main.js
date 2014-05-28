@@ -17,23 +17,30 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-var app, cjs, initGame, stage, tick;
+var app, cjs, initGame, tick;
 
 cjs = createjs;
 
-stage = null;
-
-app = {};
+app = null;
 
 initGame = function() {
-  stage = new cjs.Stage("ternion");
+  var column, tile, _i, _j, _len, _len1, _ref;
+  app = new cjs.Stage("ternion");
   app.assets = loadAssets();
   app.board = initBoard();
+  _ref = app.board.tiles;
+  for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+    column = _ref[_i];
+    for (_j = 0, _len1 = column.length; _j < _len1; _j++) {
+      tile = column[_j];
+      app.addChild(tile);
+    }
+  }
   cjs.Ticker.addEventListener("tick", tick);
 };
 
 tick = function(event) {
-  stage.update();
+  app.update();
 };
 
 //# sourceMappingURL=main.map

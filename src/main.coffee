@@ -17,19 +17,22 @@
 ###
 
 cjs   = createjs
-stage = null
-app   = {}
+app   = null
 
 initGame = ->
-  stage = new cjs.Stage("ternion")
+  app = new cjs.Stage("ternion")
 
   app.assets = loadAssets()
   app.board  = initBoard()
+
+  for column in app.board.tiles
+    for tile in column
+      app.addChild tile
 
   cjs.Ticker.addEventListener "tick", tick
   return
 
 tick = (event) ->
-  stage.update()
+  app.update()
   return
 
