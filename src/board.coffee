@@ -38,4 +38,5 @@ initBoard = ->
     hideRooms: ->
 
   board.spawnLevel()
+
   board
