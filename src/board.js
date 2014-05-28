@@ -10,10 +10,26 @@ initBoard = function() {
     rooms: [],
     spawnLevel: function() {
       this.level += 1;
-      return this.populateRooms();
+      this.populateRooms();
+      return this.buildTileArray();
     },
-    populateRooms: function() {},
-    buildTileArray: function() {},
+    buildTileArray: function() {
+      var i, j, tile, _i, _results;
+      _results = [];
+      for (i = _i = 0; _i < 12; i = ++_i) {
+        this.tiles[i] = [];
+        _results.push((function() {
+          var _j, _results1;
+          _results1 = [];
+          for (j = _j = 0; _j < 12; j = ++_j) {
+            tile = new Tile(new cjs.Point(i, j), this.level);
+            _results1.push(this.tiles[i].push(tile));
+          }
+          return _results1;
+        }).call(this));
+      }
+      return _results;
+    },
     populateRooms: function() {},
     populateStaticTiles: function() {},
     populateRoomTiles: function() {},

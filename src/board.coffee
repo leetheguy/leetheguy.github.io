@@ -15,10 +15,15 @@ initBoard = ->
     spawnLevel: ->
       @level += 1
       @populateRooms()
+      @buildTileArray()
 
-    populateRooms: ->
 
     buildTileArray: ->
+      for i in [0...12]
+        @tiles[i] = []
+        for j in [0...12]
+          tile = new Tile(new cjs.Point(i,j), @level)
+          @tiles[i].push tile
 
     populateRooms: ->
 
