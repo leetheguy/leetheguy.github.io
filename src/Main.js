@@ -1,4 +1,4 @@
-###
+/*
     Copyright (C) 2014  Lee Nathan
     https://github.com/leetheguy/ternion
 
@@ -14,24 +14,31 @@
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-###
+ */
+var app, cjs, initGame, tick;
 
-cjs   = createjs
-app   = null
+cjs = createjs;
 
-initGame = ->
-  app = new cjs.Stage("ternion")
+app = null;
 
-  app.assets = loadAssets()
-  app.board  = initBoard()
+initGame = function() {
+  var column, tile, _i, _j, _len, _len1, _ref;
+  app = new cjs.Stage("ternion");
+  app.assets = loadAssets();
+  app.board = initBoard();
+  _ref = app.board.tiles;
+  for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+    column = _ref[_i];
+    for (_j = 0, _len1 = column.length; _j < _len1; _j++) {
+      tile = column[_j];
+      app.addChild(tile);
+    }
+  }
+  cjs.Ticker.addEventListener("tick", tick);
+};
 
-  for column in app.board.tiles
-    for tile in column
-      app.addChild tile
+tick = function(event) {
+  app.update();
+};
 
-  cjs.Ticker.addEventListener "tick", tick
-  return
-
-tick = (event) ->
-  app.update()
-  return
+//# sourceMappingURL=Main.map
