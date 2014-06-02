@@ -1,0 +1,19 @@
+{
+  "version": 3,
+  "file": "States.js",
+<<<<<<< HEAD
+  "sourceRoot": "..",
+  "sources": [
+    "src/States.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAQQ"
+=======
+  "sourceRoot": "",
+  "sources": [
+    "States.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA"
+>>>>>>> dd8b1542c5ceb29a04c271048ad26557f0f45546
+}
