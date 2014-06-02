@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "Events.js",
+  "sourceRoot": "..",
+  "sources": [
+    "src/Events.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAoFQ"
+}

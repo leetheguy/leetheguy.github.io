@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "Screens.js",
+  "sourceRoot": "..",
+  "sources": [
+    "src/Screens.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAQQ"
+}

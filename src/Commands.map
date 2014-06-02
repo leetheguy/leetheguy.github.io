@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "Commands.js",
+  "sourceRoot": "..",
+  "sources": [
+    "src/Commands.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAoFQ"
+}

@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "Mediator.js",
+  "sourceRoot": "..",
+  "sources": [
+    "src/Mediator.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAoCQ"
+}
