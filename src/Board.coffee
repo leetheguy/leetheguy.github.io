@@ -64,12 +64,13 @@ initBoard = ->
       for column in @rooms
         for room in column
           paths = []
-          pathConnected = false
 
-          if not room.connected
-            until pathConnected
-              path = @createPathFrom(room)
-              pathConnected = _.last(path).connected
+#          pathConnected = false
+
+#          if not room.connected
+#            until pathConnected
+#              path = @createPathFrom(room)
+#              pathConnected = _.last(path).connected
 
 
     createPathFrom: (start) ->

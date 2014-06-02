@@ -1,15 +1,9 @@
 {
   "version": 3,
   "file": "SpecHelper.js",
-<<<<<<< HEAD
   "sourceRoot": "..",
   "sources": [
     "spec/SpecHelper.coffee"
-=======
-  "sourceRoot": "",
-  "sources": [
-    "SpecHelper.coffee"
->>>>>>> dd8b1542c5ceb29a04c271048ad26557f0f45546
   ],
   "names": [],
   "mappings": ";AAAA,UAAA,CAAW,SAAA,GAAA;SACT,QAAA,CAAA,EADS;AAAA,CAAX,CAAA,CAAA"

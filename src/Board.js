@@ -43,7 +43,7 @@ initBoard = function() {
       return this.tiles = Grid.populate(27, Tile);
     },
     plotPaths: function() {
-      var column, path, pathConnected, paths, room, _i, _len, _ref, _results;
+      var column, path, paths, room, _i, _len, _ref, _results;
       path = [];
       _ref = this.rooms;
       _results = [];
@@ -54,24 +54,10 @@ initBoard = function() {
           _results1 = [];
           for (_j = 0, _len1 = column.length; _j < _len1; _j++) {
             room = column[_j];
-            paths = [];
-            pathConnected = false;
-            if (!room.connected) {
-              _results1.push((function() {
-                var _results2;
-                _results2 = [];
-                while (!pathConnected) {
-                  path = this.createPathFrom(room);
-                  _results2.push(pathConnected = _.last(path).connected);
-                }
-                return _results2;
-              }).call(this));
-            } else {
-              _results1.push(void 0);
-            }
+            _results1.push(paths = []);
           }
           return _results1;
-        }).call(this));
+        })());
       }
       return _results;
     },
