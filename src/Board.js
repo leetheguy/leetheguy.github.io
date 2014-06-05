@@ -6,15 +6,20 @@ initBoard = function() {
   board = new cjs.Container();
   board = _.extend(board, {
     level: 0,
-    map: [],
-    tiles: [],
-    rooms: [],
     spawnLevel: function() {
+      this.despawnLevel();
       this.level += 1;
       this.removeAllChildren();
       this.buildRoomArray();
       this.buildTileArray();
       return this.plotPaths();
+    },
+    despawnLevel: function() {
+      return {
+        map: [],
+        tiles: [],
+        rooms: []
+      };
     },
     buildRoomArray: function() {
       var emptyCount, hallCount, i, pointer, roomArray, roomCount, _i, _j, _k;
@@ -26,6 +31,7 @@ initBoard = function() {
       roomArray = _.chain(this.rooms).flatten().shuffle().value();
       roomArray[0].name = "entry";
       roomArray[1].name = "exit";
+      roomArray[1].connected = true;
       for (i = _i = 1; 1 <= emptyCount ? _i <= emptyCount : _i >= emptyCount; i = 1 <= emptyCount ? ++_i : --_i) {
         roomArray[pointer].name = "empty";
         pointer += 1;
@@ -43,27 +49,24 @@ initBoard = function() {
       return this.tiles = Grid.populate(27, Tile);
     },
     plotPaths: function() {
-      var column, path, paths, room, _i, _len, _ref, _results;
-      path = [];
+      var column, room, _i, _j, _len, _len1, _ref;
       _ref = this.rooms;
-      _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         column = _ref[_i];
-        _results.push((function() {
-          var _j, _len1, _results1;
-          _results1 = [];
-          for (_j = 0, _len1 = column.length; _j < _len1; _j++) {
-            room = column[_j];
-            _results1.push(paths = []);
+        for (_j = 0, _len1 = column.length; _j < _len1; _j++) {
+          room = column[_j];
+          if (!room.connected) {
+            this.createPathFrom(room);
           }
-          return _results1;
-        })());
+        }
       }
-      return _results;
+      return null;
     },
     createPathFrom: function(start) {
-      var escapes, foo, last, path;
-      start.seeking = true;
+      var escapes, last, path, room, _i, _j, _len, _len1;
+      if (!start.connected) {
+        start.seeking = true;
+      }
       path = [start];
       while (!(_.last(path).connected || _.isEmpty(this.findEscapes(_.last(path))))) {
         last = _.last(path);
@@ -72,8 +75,18 @@ initBoard = function() {
           path.push(this.getNextRoom(last));
         }
       }
-      foo = 1;
-      console.info(foo);
+      if (!_.last(path).connected) {
+        for (_i = 0, _len = path.length; _i < _len; _i++) {
+          room = path[_i];
+          if (!_.isEmpty(this.findEscapes(room)) && this.createPathFrom(room)[0].connected) {
+            break;
+          }
+        }
+      }
+      for (_j = 0, _len1 = path.length; _j < _len1; _j++) {
+        room = path[_j];
+        room.connected = true;
+      }
       return path;
     },
     findEscapes: function(room) {

@@ -13,17 +13,24 @@ describe "Board", ->
       expect(app.board.rooms.length).toEqual(5)
       expect(app.board.rooms[0].length).toEqual(5)
 
-    it "assigns 1      room  as entry", ->
+    it "assigns 1 room as entry", ->
       entries = _.chain(app.board.rooms)
         .flatten().filter (room) -> room.name is "entry"
         .value().length
       expect(entries).toEqual(1)
 
-    it "assigns 1 room  as exit", ->
+    it "assigns 1 room as exit", ->
       entries = _.chain(app.board.rooms)
         .flatten().filter (room) -> room.name is "exit"
         .value().length
       expect(entries).toEqual(1)
+
+    it "makes exit room connected", ->
+      exit = _.chain(app.board.rooms)
+        .flatten().filter (room) -> room.name is "exit"
+        .last().value()
+      expect(exit.connected).toBeTruthy()
+
 
     it "assigns 3..4 rooms as empty", ->
       entries = _.chain(app.board.rooms)
@@ -57,7 +64,7 @@ describe "Board", ->
       expect(app.board.tiles[26][26]).toEqual(jasmine.any(Tile))
 
   describe "plotPaths", ->
-    xit "makes every room connected", ->
+    it "makes every room connected", ->
       connectedRooms = _.filter(_.flatten(app.board.rooms), (room) -> room.connected)
       expect(connectedRooms.length).toEqual(25)
 
@@ -70,10 +77,29 @@ describe "Board", ->
        entry = _.where(_.flatten(app.board.rooms), name: "entry")[0]
        path  = app.board.createPathFrom(entry)
        last  = _.last(path)
+
        expect(last.connected or _.isEmpty(app.board.findEscapes(last))).toBeTruthy()
 
+     it "marks each room as connected if the last room is an exit", ->
+       exit  = _.where(_.flatten(app.board.rooms), name: "exit")[0]
+       spyOn(app.board, 'getNextRoom').and.returnValue(exit)
+
+       entry = _.where(_.flatten(app.board.rooms), name: "entry")[0]
+       path  = app.board.createPathFrom(entry)
+
+       expect(path[0].connected).toBeTruthy()
+
+     it "recursively creates paths until all are connected", ->
+       entry = _.where(_.flatten(app.board.rooms), name: "entry")[0]
+       exit  = _.where(_.flatten(app.board.rooms), name: "exit")[0]
+       path  = app.board.createPathFrom(entry)
+       expect(path[0].connected).toBeTruthy()
+
+
    describe "findEscapes", ->
+
      it "returns escapes", ->
+       emptyBoard()
        room = app.board.rooms[3][3]
        expect(_.isEmpty(app.board.findEscapes(room))).toBeFalsy()
 
@@ -154,6 +180,7 @@ describe "Board", ->
     next = null
 
     beforeEach ->
+      emptyBoard()
       room = app.board.rooms[0][0]
       next = app.board.getNextRoom room
 

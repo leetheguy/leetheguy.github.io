@@ -2,10 +2,6 @@ initBoard = ->
   board = new cjs.Container()
   board = _.extend board,
     level: 0
-    map:   []
-    tiles: []
-    rooms: []
-
 
   # add walls to tiles
   # add items to tiles based on rooms
@@ -13,12 +9,18 @@ initBoard = ->
   # hide all rooms except start
 
     spawnLevel: ->
+      @despawnLevel()
       @level += 1
       @removeAllChildren()
       @buildRoomArray()    # give each room a name / purpose
       @buildTileArray()    # create an array of tiles
       @plotPaths()
       #      @buildMapFoundation()         # add floor and outer walls
+
+    despawnLevel: ->
+      map:   []
+      tiles: []
+      rooms: []
 
     buildRoomArray: ->
       @rooms = Grid.populate(5, Room)
@@ -31,7 +33,9 @@ initBoard = ->
       roomArray  = _.chain(@rooms).flatten().shuffle().value()
 
       roomArray[0].name = "entry"
+
       roomArray[1].name = "exit"
+      roomArray[1].connected = true
 
       for i in [1..emptyCount]
         roomArray[pointer].name = "empty"
@@ -60,21 +64,16 @@ initBoard = ->
     
     
     plotPaths: ->
-      path  = []
       for column in @rooms
         for room in column
-          paths = []
+          if not room.connected
+            @createPathFrom room
 
-#          pathConnected = false
-
-#          if not room.connected
-#            until pathConnected
-#              path = @createPathFrom(room)
-#              pathConnected = _.last(path).connected
-
+      null
 
     createPathFrom: (start) ->
-      start.seeking = true
+      if not start.connected
+        start.seeking = true
       path = [start]
 
       until _.last(path).connected or _.isEmpty(@findEscapes(_.last(path)))
@@ -83,8 +82,17 @@ initBoard = ->
 
         if not _.isEmpty(escapes)
           path.push(@getNextRoom(last))
-      foo = 1
-      console.info foo
+
+      # if this path isn't connected
+      # recursively call this method on each room in this path
+      # until a connected path is created
+      if not _.last(path).connected
+        for room in path
+          if not _.isEmpty(@findEscapes(room)) and @createPathFrom(room)[0].connected
+              break
+
+      room.connected = true for room in path
+
       path
 
     findEscapes: (room) ->
