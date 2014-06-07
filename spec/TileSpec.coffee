@@ -14,13 +14,8 @@ describe "Tile", ->
     expect(tile.height).toEqual(32)
 
   it "calculates its own x / y position based on its width / height", ->
-    expect(tile.x).toEqual(96)
-    expect(tile.y).toEqual(32)
-
-  it "puts the first row and column off screen", ->
-    tile = new Tile(new cjs.Point(0,0), 1)
-    expect(tile.x).toEqual(-32)
-    expect(tile.y).toEqual(-32)
+    expect(tile.x).toEqual(4 * 32)
+    expect(tile.y).toEqual(2 * 32)
 
   xit "renders a random sprite based on the board level", ->
     expect(

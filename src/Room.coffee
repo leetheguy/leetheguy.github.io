@@ -3,7 +3,7 @@ Room = (point) ->
   @name      = ""
   @connected = false
   @seeking   = false
-  @exits     = []
+  @exits     = {}
   @contents  = []
 
   return

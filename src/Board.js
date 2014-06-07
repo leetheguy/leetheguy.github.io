@@ -9,7 +9,6 @@ initBoard = function() {
     spawnLevel: function() {
       this.despawnLevel();
       this.level += 1;
-      this.removeAllChildren();
       this.buildRoomArray();
       this.buildTileArray();
       return this.plotPaths();
@@ -46,7 +45,7 @@ initBoard = function() {
       }
     },
     buildTileArray: function() {
-      return this.tiles = Grid.populate(27, Tile);
+      return this.tiles = Grid.populate(25, Tile);
     },
     plotPaths: function() {
       var column, room, _i, _j, _len, _len1, _ref;
@@ -63,16 +62,18 @@ initBoard = function() {
       return null;
     },
     createPathFrom: function(start) {
-      var escapes, last, path, room, _i, _j, _len, _len1;
+      var current, escapes, next, path, room, _i, _j, _len, _len1;
       if (!start.connected) {
         start.seeking = true;
       }
       path = [start];
       while (!(_.last(path).connected || _.isEmpty(this.findEscapes(_.last(path))))) {
-        last = _.last(path);
-        escapes = this.findEscapes(last);
+        current = _.last(path);
+        escapes = this.findEscapes(current);
         if (!_.isEmpty(escapes)) {
-          path.push(this.getNextRoom(last));
+          next = this.getNextRoom(current);
+          this.attachExits(current, next);
+          path.push(next);
         }
       }
       if (!_.last(path).connected) {
@@ -88,6 +89,24 @@ initBoard = function() {
         room.connected = true;
       }
       return path;
+    },
+    attachExits: function(current, next) {
+      if (next.coords.y < current.coords.y) {
+        current.exits.north = next;
+        next.exits.south = current;
+      }
+      if (next.coords.x > current.coords.x) {
+        current.exits.east = next;
+        next.exits.west = current;
+      }
+      if (next.coords.y > current.coords.y) {
+        current.exits.south = next;
+        next.exits.north = current;
+      }
+      if (next.coords.x < current.coords.x) {
+        current.exits.west = next;
+        return next.exits.east = current;
+      }
     },
     findEscapes: function(room) {
       var east, escapes, north, south, west;
@@ -124,10 +143,38 @@ initBoard = function() {
       room.seeking = true;
       return room;
     },
-    populateStaticTiles: function() {},
-    populateRoomTiles: function() {},
-    populateDoors: function() {},
-    hideRooms: function() {}
+    populateTiles: function() {
+      var room, _i, _len, _ref;
+      _ref = _.flatten(rooms);
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        room = _ref[_i];
+        switch (room.name) {
+          case "entry":
+            renderEntry(room);
+            break;
+          case "exit":
+            renderExit(room);
+            break;
+          case "empty":
+            renderEmpty(room);
+            break;
+          case "room":
+            renderRoom(room);
+            break;
+          case "hall":
+            renderHall(room);
+        }
+      }
+    },
+    renderEntry: function(room) {
+      return renderRoom(room);
+    },
+    renderExit: function(room) {
+      return renderRoom(room);
+    },
+    renderEmpty: function(room) {},
+    renderRoom: function(room) {},
+    renderHall: function(room) {}
   });
   board.spawnLevel();
   return board;

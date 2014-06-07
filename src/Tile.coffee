@@ -4,8 +4,8 @@ Tile = (point, grid) ->
   @coords = new cjs.Point(point.x, point.y)
   @width  = 32
   @height = 32
-  @x = (@coords.x * @width) - 32
-  @y = (@coords.y * @height) - 32
+  @x = (@coords.x * @width)
+  @y = (@coords.y * @height)
 
   addArchitecture = (level) ->
   #floor = Math.floor(level / 10)

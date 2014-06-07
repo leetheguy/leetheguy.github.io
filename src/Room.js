@@ -6,7 +6,7 @@ Room = function(point) {
   this.name = "";
   this.connected = false;
   this.seeking = false;
-  this.exits = [];
+  this.exits = {};
   this.contents = [];
 };
 

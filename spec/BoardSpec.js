@@ -62,14 +62,14 @@ describe("Board", function() {
     });
   });
   describe("buildTileArray", function() {
-    it("creates a 27x27 array", function() {
-      expect(app.board.tiles.length).toEqual(27);
-      return expect(app.board.tiles[26].length).toEqual(27);
+    it("creates a 25x25 array", function() {
+      expect(app.board.tiles.length).toEqual(25);
+      return expect(app.board.tiles[24].length).toEqual(25);
     });
     return it("has a Tile Container in each place", function() {
       expect(app.board.tiles[0][0]).toEqual(jasmine.any(Tile));
       expect(app.board.tiles[4][2]).toEqual(jasmine.any(Tile));
-      return expect(app.board.tiles[26][26]).toEqual(jasmine.any(Tile));
+      return expect(app.board.tiles[24][24]).toEqual(jasmine.any(Tile));
     });
   });
   describe("plotPaths", function() {
@@ -80,10 +80,10 @@ describe("Board", function() {
       });
       return expect(connectedRooms.length).toEqual(25);
     });
-    return xit("makes every non-empty room have an exit", function() {
+    return xit("intermittently fails: makes every non-empty room have an exit", function() {
       var exitableRooms;
       exitableRooms = _.filter(_.flatten(app.board.rooms), function(room) {
-        return room.exits.length > 0 || room.name === "empty";
+        return !_.isEmpty(room.exits) || room.name === "empty";
       });
       return expect(exitableRooms.length).toEqual(25);
     });

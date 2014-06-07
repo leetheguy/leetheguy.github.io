@@ -8,8 +8,8 @@ Tile = function(point, grid) {
   this.coords = new cjs.Point(point.x, point.y);
   this.width = 32;
   this.height = 32;
-  this.x = (this.coords.x * this.width) - 32;
-  this.y = (this.coords.y * this.height) - 32;
+  this.x = this.coords.x * this.width;
+  this.y = this.coords.y * this.height;
   addArchitecture = function(level) {};
 };
 

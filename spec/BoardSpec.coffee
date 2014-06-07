@@ -54,22 +54,24 @@ describe "Board", ->
       expect(entries).toBeGreaterThan(7)
 
   describe "buildTileArray", ->
-    it "creates a 27x27 array", ->
-      expect(app.board.tiles.length).toEqual(27)
-      expect(app.board.tiles[26].length).toEqual(27)
+    it "creates a 25x25 array", ->
+      expect(app.board.tiles.length).toEqual(25)
+      expect(app.board.tiles[24].length).toEqual(25)
 
     it "has a Tile Container in each place", ->
       expect(app.board.tiles[0][0]).toEqual(jasmine.any(Tile))
       expect(app.board.tiles[4][2]).toEqual(jasmine.any(Tile))
-      expect(app.board.tiles[26][26]).toEqual(jasmine.any(Tile))
+      expect(app.board.tiles[24][24]).toEqual(jasmine.any(Tile))
 
   describe "plotPaths", ->
     it "makes every room connected", ->
       connectedRooms = _.filter(_.flatten(app.board.rooms), (room) -> room.connected)
       expect(connectedRooms.length).toEqual(25)
 
-    xit "makes every non-empty room have an exit", ->
-      exitableRooms = _.filter(_.flatten(app.board.rooms), (room) -> room.exits.length > 0 or room.name is "empty")
+    xit "intermittently fails: makes every non-empty room have an exit", ->
+      exitableRooms = _.filter(_.flatten(app.board.rooms), (room) ->
+        not _.isEmpty(room.exits) or room.name is "empty"
+      )
       expect(exitableRooms.length).toEqual(25)
 
    describe "createPathFrom", ->
@@ -189,7 +191,6 @@ describe "Board", ->
 
     it "makes the next room seeking", ->
       expect(next.seeking).toBeTruthy()
-
 
 #  describe "build map", ->
 #    it "builds a foundation with a map surrounded by walls", ->

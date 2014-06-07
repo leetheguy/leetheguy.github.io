@@ -15,13 +15,8 @@ describe("Tile", function() {
     return expect(tile.height).toEqual(32);
   });
   it("calculates its own x / y position based on its width / height", function() {
-    expect(tile.x).toEqual(96);
-    return expect(tile.y).toEqual(32);
-  });
-  it("puts the first row and column off screen", function() {
-    tile = new Tile(new cjs.Point(0, 0), 1);
-    expect(tile.x).toEqual(-32);
-    return expect(tile.y).toEqual(-32);
+    expect(tile.x).toEqual(4 * 32);
+    return expect(tile.y).toEqual(2 * 32);
   });
   return xit("renders a random sprite based on the board level", function() {
     expect(tile.getChildAt(0) === app.assets.floors[0][0] || tile.getChildAt(0) === app.assets.floors[0][1]).toBeTruthy();

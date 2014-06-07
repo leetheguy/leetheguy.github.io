@@ -3,19 +3,15 @@ initBoard = ->
   board = _.extend board,
     level: 0
 
-  # add walls to tiles
-  # add items to tiles based on rooms
-  # add doors and remaining walls
-  # hide all rooms except start
-
+    #TODO find out why room spawning intermittently leaves an unattached room
     spawnLevel: ->
       @despawnLevel()
       @level += 1
-      @removeAllChildren()
-      @buildRoomArray()    # give each room a name / purpose
+
+      @buildRoomArray()    # give each room a name and purpose
       @buildTileArray()    # create an array of tiles
-      @plotPaths()
-      #      @buildMapFoundation()         # add floor and outer walls
+      @plotPaths()         # connect all rooms to the exit
+      #@populateTiles()     # populates tiles with architecture
 
     despawnLevel: ->
       map:   []
@@ -52,17 +48,8 @@ initBoard = ->
       return
 
     buildTileArray: ->
-      @tiles = Grid.populate(27, Tile)
+      @tiles = Grid.populate(25, Tile)
 
-    # this uses a modified sub-section of the map
-    # to ensure that all odd / odd tiles connect to each other
-    # 0: floor
-    # 1: wall
-    # 2: seeking
-    # 3: entry
-    # 3: exit
-    
-    
     plotPaths: ->
       for column in @rooms
         for room in column
@@ -77,11 +64,13 @@ initBoard = ->
       path = [start]
 
       until _.last(path).connected or _.isEmpty(@findEscapes(_.last(path)))
-        last    = _.last(path)
-        escapes = @findEscapes(last)
+        current = _.last(path)
+        escapes = @findEscapes(current)
 
         if not _.isEmpty(escapes)
-          path.push(@getNextRoom(last))
+          next = @getNextRoom(current)
+          @attachExits current, next
+          path.push(next)
 
       # if this path isn't connected
       # recursively call this method on each room in this path
@@ -94,6 +83,20 @@ initBoard = ->
       room.connected = true for room in path
 
       path
+
+    attachExits: (current, next) ->
+      if next.coords.y < current.coords.y
+        current.exits.north = next
+        next.exits.south    = current
+      if next.coords.x > current.coords.x
+        current.exits.east  = next
+        next.exits.west     = current
+      if next.coords.y > current.coords.y
+        current.exits.south = next
+        next.exits.north    = current
+      if next.coords.x < current.coords.x
+        current.exits.west  = next
+        next.exits.east     = current
 
     findEscapes: (room) ->
       escapes = {}
@@ -125,13 +128,38 @@ initBoard = ->
       room.seeking = true
       room
 
-    populateStaticTiles: ->
+    populateTiles: ->
+      for room in _.flatten(rooms)
+        switch room.name
+          when "entry"
+            renderEntry room
+          when "exit"
+            renderExit room
+          when "empty"
+            renderEmpty room
+          when "room"
+            renderRoom room
+          when "hall"
+            renderHall room
 
-    populateRoomTiles: ->
+      return
 
-    populateDoors: ->
+    renderEntry: (room) ->
+      renderRoom(room)
+      #someTile.spawnPlayer()
 
-    hideRooms: ->
+    renderExit: (room) ->
+      renderRoom(room)
+      #someTile.spawnStairs()
+
+    renderEmpty: (room) ->
+      #allTiles.spawnWall()
+
+    renderRoom: (room) ->
+      #allTiles.spawnWall()
+
+    renderHall: (room) ->
+      #allTiles.spawnWall()
 
   board.spawnLevel()
 
