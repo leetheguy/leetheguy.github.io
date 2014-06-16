@@ -2,15 +2,13 @@
 var Tile;
 
 Tile = function(point, grid) {
-  var addArchitecture;
   cjs.Container.call(this);
   this.grid = grid;
   this.coords = new cjs.Point(point.x, point.y);
   this.width = 32;
   this.height = 32;
   this.x = this.coords.x * this.width;
-  this.y = this.coords.y * this.height;
-  addArchitecture = function(level) {};
+  return this.y = this.coords.y * this.height;
 };
 
 Tile.prototype = Object.create(cjs.Container.prototype);

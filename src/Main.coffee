@@ -25,9 +25,7 @@ initGame = ->
   app.assets = loadAssets()
   app.board  = initBoard()
 
-  for column in app.board.tiles
-    for tile in column
-      app.addChild tile
+  app.addChild app.board
 
   cjs.Ticker.addEventListener "tick", tick
   return

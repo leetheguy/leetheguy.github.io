@@ -8,15 +8,30 @@ initBoard = ->
       @despawnLevel()
       @level += 1
 
+      @buildMap()          # creates a map used for level construction
       @buildRoomArray()    # give each room a name and purpose
       @buildTileArray()    # create an array of tiles
       @plotPaths()         # connect all rooms to the exit
-      #@populateTiles()     # populates tiles with architecture
+      @mapArchitecture()   # populates architecture map
+      @renderTiles()
+
+      this
 
     despawnLevel: ->
-      map:   []
-      tiles: []
-      rooms: []
+      @map = []
+      @tiles = []
+      @rooms = []
+
+    buildMap: ->
+      @map.push _.map(_.range(0, 27), -> 1)
+      for n in [1...26]
+        row = []
+        row.push 1
+        row = row.concat _.map(_.range(1, 26), -> 0)
+        row.push 1
+        @map.push row
+      @map.push _.map(_.range(0, 27), -> 1)
+      @map
 
     buildRoomArray: ->
       @rooms = Grid.populate(5, Room)
@@ -128,39 +143,117 @@ initBoard = ->
       room.seeking = true
       room
 
-    populateTiles: ->
-      for room in _.flatten(rooms)
+    mapArchitecture: ->
+      for room in _.flatten(@rooms)
         switch room.name
           when "entry"
-            renderEntry room
+            @renderEntry room
           when "exit"
-            renderExit room
+            @renderExit  room
           when "empty"
-            renderEmpty room
+            @renderEmpty room
           when "room"
-            renderRoom room
+            @renderRoom  room
           when "hall"
-            renderHall room
+            @renderHall  room
 
       return
 
+    # key:
+    # 0: floor
+    # 1: wall
+    # 2: door
+
+    renderRoom: (room) ->
+      structure = [[1,1,1,1,1],
+                   [1,0,0,0,1],
+                   [1,0,0,0,1],
+                   [1,0,0,0,1],
+                   [1,1,1,1,1]]
+
+      structure[2][0] = 2 if not (typeof room.exits.north is "undefined")
+      structure[4][2] = 2 if not (typeof room.exits.east  is "undefined")
+      structure[2][4] = 2 if not (typeof room.exits.south is "undefined")
+      structure[0][2] = 2 if not (typeof room.exits.west  is "undefined")
+
+      @roomToMap room, structure
+
     renderEntry: (room) ->
-      renderRoom(room)
+      @renderRoom(room)
       #someTile.spawnPlayer()
 
     renderExit: (room) ->
-      renderRoom(room)
+      @renderRoom(room)
       #someTile.spawnStairs()
 
     renderEmpty: (room) ->
-      #allTiles.spawnWall()
+      structure = [[1,1,1,1,1],
+                   [1,1,1,1,1],
+                   [1,1,1,1,1],
+                   [1,1,1,1,1],
+                   [1,1,1,1,1]]
 
-    renderRoom: (room) ->
-      #allTiles.spawnWall()
+      @roomToMap room, structure
 
     renderHall: (room) ->
-      #allTiles.spawnWall()
+      structure = [[1,1,1,1,1],
+                   [1,1,1,1,1],
+                   [1,1,0,1,1],
+                   [1,1,1,1,1],
+                   [1,1,1,1,1]]
+
+      if not (typeof room.exits.north is "undefined")
+        structure[2][0] = 0
+        structure[2][1] = 0
+      if not (typeof room.exits.east  is "undefined")
+        structure[4][2] = 0
+        structure[3][2] = 0
+      if not (typeof room.exits.south is "undefined")
+        structure[2][4] = 0
+        structure[2][3] = 0
+      if not (typeof room.exits.west  is "undefined")
+        structure[0][2] = 0
+        structure[1][2] = 0
+
+      @roomToMap room, structure
+
+    roomToMap: (room, structure) ->
+      x_base = (room.coords.x * 5) + 1
+      y_base = (room.coords.y * 5) + 1
+
+      for i in [0...5]
+        for j in [0...5]
+          @map[x_base+i][y_base+j] = structure[i][j]
+
+      @map
+
+    renderTiles: ->
+      for i in [1..25]
+        for j in [1..25]
+          switch @map[i][j]
+            when 0
+              element = Architecture.spawnFloor @level
+            when 1
+              element = Architecture.spawnWall  @level
+            when 2
+              element = Architecture.spawnFloor @level
+          tile = @tiles[i-1][j-1]
+          tile.children.push element
+          @addChild tile
+
+     mapPointSurroundings: (x,y) ->
+       if x is 0 or x is @map.length - 1 or y is 0 or y is @map.length - 1
+         return null
+       else
+         surroundings = []
+         for i in [x-1..x+1]
+           surroundings.push []
+           for j in [y-1..y+1]
+             _.last(surroundings).push @map[i][j]
+
+         return surroundings
+
+       
 
   board.spawnLevel()
 
-  board

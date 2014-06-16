@@ -9,16 +9,37 @@ initBoard = function() {
     spawnLevel: function() {
       this.despawnLevel();
       this.level += 1;
+      this.buildMap();
       this.buildRoomArray();
       this.buildTileArray();
-      return this.plotPaths();
+      this.plotPaths();
+      this.mapArchitecture();
+      this.renderTiles();
+      return this;
     },
     despawnLevel: function() {
-      return {
-        map: [],
-        tiles: [],
-        rooms: []
-      };
+      this.map = [];
+      this.tiles = [];
+      return this.rooms = [];
+    },
+    buildMap: function() {
+      var n, row, _i;
+      this.map.push(_.map(_.range(0, 27), function() {
+        return 1;
+      }));
+      for (n = _i = 1; _i < 26; n = ++_i) {
+        row = [];
+        row.push(1);
+        row = row.concat(_.map(_.range(1, 26), function() {
+          return 0;
+        }));
+        row.push(1);
+        this.map.push(row);
+      }
+      this.map.push(_.map(_.range(0, 27), function() {
+        return 1;
+      }));
+      return this.map;
     },
     buildRoomArray: function() {
       var emptyCount, hallCount, i, pointer, roomArray, roomCount, _i, _j, _k;
@@ -143,41 +164,133 @@ initBoard = function() {
       room.seeking = true;
       return room;
     },
-    populateTiles: function() {
+    mapArchitecture: function() {
       var room, _i, _len, _ref;
-      _ref = _.flatten(rooms);
+      _ref = _.flatten(this.rooms);
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         room = _ref[_i];
         switch (room.name) {
           case "entry":
-            renderEntry(room);
+            this.renderEntry(room);
             break;
           case "exit":
-            renderExit(room);
+            this.renderExit(room);
             break;
           case "empty":
-            renderEmpty(room);
+            this.renderEmpty(room);
             break;
           case "room":
-            renderRoom(room);
+            this.renderRoom(room);
             break;
           case "hall":
-            renderHall(room);
+            this.renderHall(room);
         }
       }
     },
+    renderRoom: function(room) {
+      var structure;
+      structure = [[1, 1, 1, 1, 1], [1, 0, 0, 0, 1], [1, 0, 0, 0, 1], [1, 0, 0, 0, 1], [1, 1, 1, 1, 1]];
+      if (!(typeof room.exits.north === "undefined")) {
+        structure[2][0] = 2;
+      }
+      if (!(typeof room.exits.east === "undefined")) {
+        structure[4][2] = 2;
+      }
+      if (!(typeof room.exits.south === "undefined")) {
+        structure[2][4] = 2;
+      }
+      if (!(typeof room.exits.west === "undefined")) {
+        structure[0][2] = 2;
+      }
+      return this.roomToMap(room, structure);
+    },
     renderEntry: function(room) {
-      return renderRoom(room);
+      return this.renderRoom(room);
     },
     renderExit: function(room) {
-      return renderRoom(room);
+      return this.renderRoom(room);
     },
-    renderEmpty: function(room) {},
-    renderRoom: function(room) {},
-    renderHall: function(room) {}
+    renderEmpty: function(room) {
+      var structure;
+      structure = [[1, 1, 1, 1, 1], [1, 1, 1, 1, 1], [1, 1, 1, 1, 1], [1, 1, 1, 1, 1], [1, 1, 1, 1, 1]];
+      return this.roomToMap(room, structure);
+    },
+    renderHall: function(room) {
+      var structure;
+      structure = [[1, 1, 1, 1, 1], [1, 1, 1, 1, 1], [1, 1, 0, 1, 1], [1, 1, 1, 1, 1], [1, 1, 1, 1, 1]];
+      if (!(typeof room.exits.north === "undefined")) {
+        structure[2][0] = 0;
+        structure[2][1] = 0;
+      }
+      if (!(typeof room.exits.east === "undefined")) {
+        structure[4][2] = 0;
+        structure[3][2] = 0;
+      }
+      if (!(typeof room.exits.south === "undefined")) {
+        structure[2][4] = 0;
+        structure[2][3] = 0;
+      }
+      if (!(typeof room.exits.west === "undefined")) {
+        structure[0][2] = 0;
+        structure[1][2] = 0;
+      }
+      return this.roomToMap(room, structure);
+    },
+    roomToMap: function(room, structure) {
+      var i, j, x_base, y_base, _i, _j;
+      x_base = (room.coords.x * 5) + 1;
+      y_base = (room.coords.y * 5) + 1;
+      for (i = _i = 0; _i < 5; i = ++_i) {
+        for (j = _j = 0; _j < 5; j = ++_j) {
+          this.map[x_base + i][y_base + j] = structure[i][j];
+        }
+      }
+      return this.map;
+    },
+    renderTiles: function() {
+      var element, i, j, tile, _i, _results;
+      _results = [];
+      for (i = _i = 1; _i <= 25; i = ++_i) {
+        _results.push((function() {
+          var _j, _results1;
+          _results1 = [];
+          for (j = _j = 1; _j <= 25; j = ++_j) {
+            switch (this.map[i][j]) {
+              case 0:
+                element = Architecture.spawnFloor(this.level);
+                break;
+              case 1:
+                element = Architecture.spawnWall(this.level);
+                break;
+              case 2:
+                element = Architecture.spawnFloor(this.level);
+            }
+            tile = this.tiles[i - 1][j - 1];
+            tile.children.push(element);
+            _results1.push(this.addChild(tile));
+          }
+          return _results1;
+        }).call(this));
+      }
+      return _results;
+    },
+    mapPointSurroundings: function(x, y) {
+      var i, j, surroundings, _i, _j, _ref, _ref1, _ref2, _ref3;
+      if (x === 0 || x === this.map.length - 1 || y === 0 || y === this.map.length - 1) {
+        return null;
+      } else {
+        surroundings = [];
+        for (i = _i = _ref = x - 1, _ref1 = x + 1; _ref <= _ref1 ? _i <= _ref1 : _i >= _ref1; i = _ref <= _ref1 ? ++_i : --_i) {
+          surroundings.push([]);
+          for (j = _j = _ref2 = y - 1, _ref3 = y + 1; _ref2 <= _ref3 ? _j <= _ref3 : _j >= _ref3; j = _ref2 <= _ref3 ? ++_j : --_j) {
+            _.last(surroundings).push(this.map[i][j]);
+          }
+        }
+        return surroundings;
+      }
+    }
   });
-  board.spawnLevel();
-  return board;
+  return board.spawnLevel();
 };
 
 //# sourceMappingURL=Board.map

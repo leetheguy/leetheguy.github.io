@@ -24,18 +24,10 @@ cjs = createjs;
 app = null;
 
 initGame = function() {
-  var column, tile, _i, _j, _len, _len1, _ref;
   app = new cjs.Stage("ternion");
   app.assets = loadAssets();
   app.board = initBoard();
-  _ref = app.board.tiles;
-  for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-    column = _ref[_i];
-    for (_j = 0, _len1 = column.length; _j < _len1; _j++) {
-      tile = column[_j];
-      app.addChild(tile);
-    }
-  }
+  app.addChild(app.board);
   cjs.Ticker.addEventListener("tick", tick);
 };
 

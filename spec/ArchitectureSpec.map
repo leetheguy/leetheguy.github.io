@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "ArchitectureSpec.js",
+  "sourceRoot": "..",
+  "sources": [
+    "spec/ArchitectureSpec.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA,QAAA,CAAS,cAAT,EAAyB,SAAA,GAAA,CAAzB,CAAA,CAAA;;AAAA,QAEA,CAAS,MAAT,EAAiB,SAAA,GAAA,CAAjB,CAFA,CAAA"
+}
