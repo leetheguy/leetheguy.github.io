@@ -23,23 +23,14 @@ initBoard = function() {
       return this.rooms = [];
     },
     buildMap: function() {
-      var n, row, _i;
-      this.map.push(_.map(_.range(0, 21), function() {
-        return 1;
-      }));
-      for (n = _i = 1; _i < 20; n = ++_i) {
-        row = [];
-        row.push(1);
-        row = row.concat(_.map(_.range(1, 20), function() {
-          return 0;
-        }));
-        row.push(1);
-        this.map.push(row);
+      var _i, _results;
+      _results = [];
+      for (_i = 0; _i < 21; _i++) {
+        _results.push(this.map.push(_.map(_.range(0, 21), function() {
+          return 1;
+        })));
       }
-      this.map.push(_.map(_.range(0, 21), function() {
-        return 1;
-      }));
-      return this.map;
+      return _results;
     },
     buildRoomArray: function() {
       var emptyCount, hallCount, i, pointer, roomArray, roomCount, _i, _j, _k;
@@ -66,7 +57,7 @@ initBoard = function() {
       }
     },
     buildTileArray: function() {
-      return this.tiles = Grid.populate(19, Tile);
+      return this.tiles = Grid.populate(21, Tile);
     },
     plotPaths: function() {
       var column, room, _i, _j, _len, _len1, _ref;
@@ -75,7 +66,7 @@ initBoard = function() {
         column = _ref[_i];
         for (_j = 0, _len1 = column.length; _j < _len1; _j++) {
           room = column[_j];
-          if (!room.connected) {
+          if (!room.connected && !(room.name === "empty")) {
             this.createPathFrom(room);
           }
         }

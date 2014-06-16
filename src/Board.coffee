@@ -23,15 +23,8 @@ initBoard = ->
       @rooms = []
 
     buildMap: ->
-      @map.push _.map(_.range(0, 21), -> 1)
-      for n in [1...20]
-        row = []
-        row.push 1
-        row = row.concat _.map(_.range(1, 20), -> 0)
-        row.push 1
-        @map.push row
-      @map.push _.map(_.range(0, 21), -> 1)
-      @map
+      for [0...21]
+        @map.push _.map(_.range(0, 21), -> 1)
 
     buildRoomArray: ->
       @rooms = Grid.populate(5, Room)
@@ -63,12 +56,12 @@ initBoard = ->
       return
 
     buildTileArray: ->
-      @tiles = Grid.populate(19, Tile)
+      @tiles = Grid.populate(21, Tile)
 
     plotPaths: ->
       for column in @rooms
         for room in column
-          if not room.connected
+          if not room.connected and not (room.name is "empty")
             @createPathFrom room
 
       null

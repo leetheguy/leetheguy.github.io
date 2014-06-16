@@ -1,9 +1,9 @@
 describe "Board", ->
   describe "buildMap", ->
-    it "creates a 27x27 array as a map", ->
-      expect(app.board.map.length).toEqual(27)
-      expect(app.board.map[15].length).toEqual(27)
-      expect(app.board.map[26].length).toEqual(27)
+    it "creates a 21x21 array as a map", ->
+      expect(app.board.map.length).toEqual(21)
+      expect(app.board.map[15].length).toEqual(21)
+      expect(app.board.map[20].length).toEqual(21)
 
   describe "initialization", ->
     it "creates a new board at level 1", ->
@@ -59,14 +59,14 @@ describe "Board", ->
       expect(entries).toBeGreaterThan(7)
 
   describe "buildTileArray", ->
-    it "creates a 25x25 array", ->
-      expect(app.board.tiles.length).toEqual(25)
-      expect(app.board.tiles[24].length).toEqual(25)
+    it "creates a 21x21 array", ->
+      expect(app.board.tiles.length).toEqual(21)
+      expect(app.board.tiles[20].length).toEqual(21)
 
     it "has a Tile Container in each place", ->
       expect(app.board.tiles[0][0]).toEqual(jasmine.any(Tile))
       expect(app.board.tiles[4][2]).toEqual(jasmine.any(Tile))
-      expect(app.board.tiles[24][24]).toEqual(jasmine.any(Tile))
+      expect(app.board.tiles[18][18]).toEqual(jasmine.any(Tile))
 
   describe "plotPaths", ->
     it "makes every room connected", ->
@@ -206,75 +206,62 @@ describe "Board", ->
 
     it "places rooms accurately on the map", ->
       app.board.renderRoom room
-      expect(app.board.map[11][11]).toEqual(1)
-      expect(app.board.map[12][12]).toEqual(0)
-      expect(app.board.map[14][14]).toEqual(0)
-      expect(app.board.map[15][15]).toEqual(1)
+      expect(app.board.map[9][9]).toEqual(0)
+      expect(app.board.map[11][11]).toEqual(0)
+      expect(app.board.map[12][12]).toEqual(1)
 
     describe "standard room doors", ->
-      it "are placed to the north", ->
-        room.exits.north = true
-        app.board.renderRoom room
-        expect(app.board.map[13][11]).toEqual(2)
-
       it "are placed to the east",  ->
         room.exits.east = true
         app.board.renderRoom room
-        expect(app.board.map[15][13]).toEqual(2)
+        expect(app.board.map[12][10]).toEqual(2)
 
       it "are placed to the south", ->
         room.exits.south = true
         app.board.renderRoom room
-        expect(app.board.map[13][15]).toEqual(2)
-
-      it "are placed to the west",  ->
-        room.exits.west = true
-        app.board.renderRoom room
-        expect(app.board.map[11][13]).toEqual(2)
+        expect(app.board.map[10][12]).toEqual(2)
 
     describe "halls", ->
       it "can have a north passage", ->
         room.exits.north = true
         app.board.renderHall room
-        expect(app.board.map[13][11]).toEqual(0)
-        expect(app.board.map[13][12]).toEqual(0)
+        expect(app.board.map[10][9]).toEqual(0)
 
       it "are placed to the east",  ->
         room.exits.east = true
         app.board.renderHall room
-        expect(app.board.map[15][13]).toEqual(0)
-        expect(app.board.map[14][13]).toEqual(0)
+        expect(app.board.map[12][10]).toEqual(0)
+        expect(app.board.map[11][10]).toEqual(0)
 
       it "are placed to the south", ->
         room.exits.south = true
         app.board.renderHall room
-        expect(app.board.map[13][15]).toEqual(0)
-        expect(app.board.map[13][14]).toEqual(0)
+        expect(app.board.map[10][12]).toEqual(0)
+        expect(app.board.map[10][11]).toEqual(0)
 
       it "are placed to the west",  ->
         room.exits.west = true
         app.board.renderHall room
-        expect(app.board.map[11][13]).toEqual(0)
-        expect(app.board.map[12][13]).toEqual(0)
+        expect(app.board.map[9][10]).toEqual(0)
 
     it "renders empties", ->
       room.name = "empty"
       app.board.renderEmpty room
-      expect(app.board.map[13][12]).toEqual(1)
-      expect(app.board.map[14][13]).toEqual(1)
-      expect(app.board.map[13][14]).toEqual(1)
-      expect(app.board.map[12][13]).toEqual(1)
-      expect(app.board.map[13][13]).toEqual(1)
+      expect(app.board.map[10][9]).toEqual(1)
+      expect(app.board.map[11][10]).toEqual(1)
+      expect(app.board.map[10][11]).toEqual(1)
+      expect(app.board.map[9][10]).toEqual(1)
+      expect(app.board.map[10][10]).toEqual(1)
 
   describe "mapPointSurroundings", ->
     it "returns null if point is on top edge of map", ->
       expect(app.board.mapPointSurroundings(13,0)).toBe(null)
 
     it "returns null if point is on right edge of map", ->
-      expect(app.board.mapPointSurroundings(26,13)).toBe(null)
+      expect(app.board.mapPointSurroundings(20,13)).toBe(null)
 
     it "returns null if point is on bottom edge of map", ->
-      expect(app.board.mapPointSurroundings(13,26)).toBe(null)
+      expect(app.board.mapPointSurroundings(13,20)).toBe(null)
 
     it "returns null if point is on left edge of map", ->
       expect(app.board.mapPointSurroundings(0,13)).toBe(null)
