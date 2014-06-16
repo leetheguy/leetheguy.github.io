@@ -24,19 +24,19 @@ initBoard = function() {
     },
     buildMap: function() {
       var n, row, _i;
-      this.map.push(_.map(_.range(0, 27), function() {
+      this.map.push(_.map(_.range(0, 21), function() {
         return 1;
       }));
-      for (n = _i = 1; _i < 26; n = ++_i) {
+      for (n = _i = 1; _i < 20; n = ++_i) {
         row = [];
         row.push(1);
-        row = row.concat(_.map(_.range(1, 26), function() {
+        row = row.concat(_.map(_.range(1, 20), function() {
           return 0;
         }));
         row.push(1);
         this.map.push(row);
       }
-      this.map.push(_.map(_.range(0, 27), function() {
+      this.map.push(_.map(_.range(0, 21), function() {
         return 1;
       }));
       return this.map;
@@ -66,7 +66,7 @@ initBoard = function() {
       }
     },
     buildTileArray: function() {
-      return this.tiles = Grid.populate(25, Tile);
+      return this.tiles = Grid.populate(19, Tile);
     },
     plotPaths: function() {
       var column, room, _i, _j, _len, _len1, _ref;
@@ -189,18 +189,12 @@ initBoard = function() {
     },
     renderRoom: function(room) {
       var structure;
-      structure = [[1, 1, 1, 1, 1], [1, 0, 0, 0, 1], [1, 0, 0, 0, 1], [1, 0, 0, 0, 1], [1, 1, 1, 1, 1]];
-      if (!(typeof room.exits.north === "undefined")) {
-        structure[2][0] = 2;
-      }
+      structure = [[0, 0, 0, 1], [0, 0, 0, 1], [0, 0, 0, 1], [1, 1, 1, 1]];
       if (!(typeof room.exits.east === "undefined")) {
-        structure[4][2] = 2;
+        structure[3][1] = 2;
       }
       if (!(typeof room.exits.south === "undefined")) {
-        structure[2][4] = 2;
-      }
-      if (!(typeof room.exits.west === "undefined")) {
-        structure[0][2] = 2;
+        structure[1][3] = 2;
       }
       return this.roomToMap(room, structure);
     },
@@ -212,36 +206,35 @@ initBoard = function() {
     },
     renderEmpty: function(room) {
       var structure;
-      structure = [[1, 1, 1, 1, 1], [1, 1, 1, 1, 1], [1, 1, 1, 1, 1], [1, 1, 1, 1, 1], [1, 1, 1, 1, 1]];
+      structure = [[1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1]];
       return this.roomToMap(room, structure);
     },
     renderHall: function(room) {
       var structure;
-      structure = [[1, 1, 1, 1, 1], [1, 1, 1, 1, 1], [1, 1, 0, 1, 1], [1, 1, 1, 1, 1], [1, 1, 1, 1, 1]];
+      structure = [[1, 1, 1, 1], [1, 0, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1]];
       if (!(typeof room.exits.north === "undefined")) {
-        structure[2][0] = 0;
-        structure[2][1] = 0;
+        structure[1][0] = 0;
       }
       if (!(typeof room.exits.east === "undefined")) {
-        structure[4][2] = 0;
-        structure[3][2] = 0;
+        structure[3][1] = 0;
+        structure[2][1] = 0;
       }
       if (!(typeof room.exits.south === "undefined")) {
-        structure[2][4] = 0;
-        structure[2][3] = 0;
+        structure[1][3] = 0;
+        structure[1][2] = 0;
       }
       if (!(typeof room.exits.west === "undefined")) {
-        structure[0][2] = 0;
-        structure[1][2] = 0;
+        structure[0][1] = 0;
+        structure[1][1] = 0;
       }
       return this.roomToMap(room, structure);
     },
     roomToMap: function(room, structure) {
       var i, j, x_base, y_base, _i, _j;
-      x_base = (room.coords.x * 5) + 1;
-      y_base = (room.coords.y * 5) + 1;
-      for (i = _i = 0; _i < 5; i = ++_i) {
-        for (j = _j = 0; _j < 5; j = ++_j) {
+      x_base = (room.coords.x * 4) + 1;
+      y_base = (room.coords.y * 4) + 1;
+      for (i = _i = 0; _i < 4; i = ++_i) {
+        for (j = _j = 0; _j < 4; j = ++_j) {
           this.map[x_base + i][y_base + j] = structure[i][j];
         }
       }
@@ -250,11 +243,11 @@ initBoard = function() {
     renderTiles: function() {
       var element, i, j, tile, _i, _results;
       _results = [];
-      for (i = _i = 1; _i <= 25; i = ++_i) {
+      for (i = _i = 1; _i <= 19; i = ++_i) {
         _results.push((function() {
           var _j, _results1;
           _results1 = [];
-          for (j = _j = 1; _j <= 25; j = ++_j) {
+          for (j = _j = 1; _j <= 19; j = ++_j) {
             switch (this.map[i][j]) {
               case 0:
                 element = Architecture.spawnFloor(this.level);

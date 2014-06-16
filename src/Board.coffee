@@ -23,14 +23,14 @@ initBoard = ->
       @rooms = []
 
     buildMap: ->
-      @map.push _.map(_.range(0, 27), -> 1)
-      for n in [1...26]
+      @map.push _.map(_.range(0, 21), -> 1)
+      for n in [1...20]
         row = []
         row.push 1
-        row = row.concat _.map(_.range(1, 26), -> 0)
+        row = row.concat _.map(_.range(1, 20), -> 0)
         row.push 1
         @map.push row
-      @map.push _.map(_.range(0, 27), -> 1)
+      @map.push _.map(_.range(0, 21), -> 1)
       @map
 
     buildRoomArray: ->
@@ -63,7 +63,7 @@ initBoard = ->
       return
 
     buildTileArray: ->
-      @tiles = Grid.populate(25, Tile)
+      @tiles = Grid.populate(19, Tile)
 
     plotPaths: ->
       for column in @rooms
@@ -165,16 +165,13 @@ initBoard = ->
     # 2: door
 
     renderRoom: (room) ->
-      structure = [[1,1,1,1,1],
-                   [1,0,0,0,1],
-                   [1,0,0,0,1],
-                   [1,0,0,0,1],
-                   [1,1,1,1,1]]
+      structure = [[0,0,0,1],
+                   [0,0,0,1],
+                   [0,0,0,1],
+                   [1,1,1,1]]
 
-      structure[2][0] = 2 if not (typeof room.exits.north is "undefined")
-      structure[4][2] = 2 if not (typeof room.exits.east  is "undefined")
-      structure[2][4] = 2 if not (typeof room.exits.south is "undefined")
-      structure[0][2] = 2 if not (typeof room.exits.west  is "undefined")
+      structure[3][1] = 2 if not (typeof room.exits.east  is "undefined")
+      structure[1][3] = 2 if not (typeof room.exits.south is "undefined")
 
       @roomToMap room, structure
 
@@ -187,49 +184,46 @@ initBoard = ->
       #someTile.spawnStairs()
 
     renderEmpty: (room) ->
-      structure = [[1,1,1,1,1],
-                   [1,1,1,1,1],
-                   [1,1,1,1,1],
-                   [1,1,1,1,1],
-                   [1,1,1,1,1]]
+      structure = [[1,1,1,1],
+                   [1,1,1,1],
+                   [1,1,1,1],
+                   [1,1,1,1]]
 
       @roomToMap room, structure
 
     renderHall: (room) ->
-      structure = [[1,1,1,1,1],
-                   [1,1,1,1,1],
-                   [1,1,0,1,1],
-                   [1,1,1,1,1],
-                   [1,1,1,1,1]]
+      structure = [[1,1,1,1],
+                   [1,0,1,1],
+                   [1,1,1,1],
+                   [1,1,1,1]]
 
       if not (typeof room.exits.north is "undefined")
-        structure[2][0] = 0
-        structure[2][1] = 0
+        structure[1][0] = 0
       if not (typeof room.exits.east  is "undefined")
-        structure[4][2] = 0
-        structure[3][2] = 0
+        structure[3][1] = 0
+        structure[2][1] = 0
       if not (typeof room.exits.south is "undefined")
-        structure[2][4] = 0
-        structure[2][3] = 0
-      if not (typeof room.exits.west  is "undefined")
-        structure[0][2] = 0
+        structure[1][3] = 0
         structure[1][2] = 0
+      if not (typeof room.exits.west  is "undefined")
+        structure[0][1] = 0
+        structure[1][1] = 0
 
       @roomToMap room, structure
 
     roomToMap: (room, structure) ->
-      x_base = (room.coords.x * 5) + 1
-      y_base = (room.coords.y * 5) + 1
+      x_base = (room.coords.x * 4) + 1
+      y_base = (room.coords.y * 4) + 1
 
-      for i in [0...5]
-        for j in [0...5]
+      for i in [0...4]
+        for j in [0...4]
           @map[x_base+i][y_base+j] = structure[i][j]
 
       @map
 
     renderTiles: ->
-      for i in [1..25]
-        for j in [1..25]
+      for i in [1..19]
+        for j in [1..19]
           switch @map[i][j]
             when 0
               element = Architecture.spawnFloor @level
@@ -252,8 +246,6 @@ initBoard = ->
              _.last(surroundings).push @map[i][j]
 
          return surroundings
-
-       
 
   board.spawnLevel()
 
