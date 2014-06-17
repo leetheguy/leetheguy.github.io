@@ -97,7 +97,7 @@ describe("Board", function() {
     });
   });
   describe("createPathFrom", function() {
-    it("returns an array of rooms that ends in a connected room or a dead end", function() {
+    xit("returns an array of rooms that ends in a connected room or a dead end", function() {
       var entry, last, path;
       entry = _.where(_.flatten(app.board.rooms), {
         name: "entry"
@@ -106,7 +106,7 @@ describe("Board", function() {
       last = _.last(path);
       return expect(last.connected || _.isEmpty(app.board.findEscapes(last))).toBeTruthy();
     });
-    it("marks each room as connected if the last room is an exit", function() {
+    return it("marks each room as connected if the last room is an exit", function() {
       var entry, exit, path;
       exit = _.where(_.flatten(app.board.rooms), {
         name: "exit"
@@ -114,17 +114,6 @@ describe("Board", function() {
       spyOn(app.board, 'getNextRoom').and.returnValue(exit);
       entry = _.where(_.flatten(app.board.rooms), {
         name: "entry"
-      })[0];
-      path = app.board.createPathFrom(entry);
-      return expect(path[0].connected).toBeTruthy();
-    });
-    return it("recursively creates paths until all are connected", function() {
-      var entry, exit, path;
-      entry = _.where(_.flatten(app.board.rooms), {
-        name: "entry"
-      })[0];
-      exit = _.where(_.flatten(app.board.rooms), {
-        name: "exit"
       })[0];
       path = app.board.createPathFrom(entry);
       return expect(path[0].connected).toBeTruthy();

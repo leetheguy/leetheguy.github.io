@@ -80,7 +80,7 @@ describe "Board", ->
       expect(exitableRooms.length).toEqual(25)
 
    describe "createPathFrom", ->
-     it "returns an array of rooms that ends in a connected room or a dead end", ->
+     xit "returns an array of rooms that ends in a connected room or a dead end", ->
        entry = _.where(_.flatten(app.board.rooms), name: "entry")[0]
        path  = app.board.createPathFrom(entry)
        last  = _.last(path)
@@ -95,13 +95,6 @@ describe "Board", ->
        path  = app.board.createPathFrom(entry)
 
        expect(path[0].connected).toBeTruthy()
-
-     it "recursively creates paths until all are connected", ->
-       entry = _.where(_.flatten(app.board.rooms), name: "entry")[0]
-       exit  = _.where(_.flatten(app.board.rooms), name: "exit")[0]
-       path  = app.board.createPathFrom(entry)
-       expect(path[0].connected).toBeTruthy()
-
 
    describe "findEscapes", ->
 

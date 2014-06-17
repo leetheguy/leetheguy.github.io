@@ -74,7 +74,7 @@ initBoard = function() {
       return null;
     },
     createPathFrom: function(start) {
-      var current, escapes, next, path, room, _i, _j, _len, _len1, _results;
+      var current, escapes, next, path, room, _i, _j, _len, _len1;
       if (!start.connected) {
         start.seeking = true;
       }
@@ -93,13 +93,12 @@ initBoard = function() {
           room = path[_i];
           room.connected = true;
         }
-        _results = [];
         for (_j = 0, _len1 = path.length; _j < _len1; _j++) {
           room = path[_j];
-          _results.push(room.seeking = false);
+          room.seeking = false;
         }
-        return _results;
       }
+      return path;
     },
     attachExits: function(current, next) {
       if (next.coords.y < current.coords.y) {

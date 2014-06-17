@@ -89,6 +89,8 @@ initBoard = ->
         room.connected = true for room in path
         room.seeking = false for room in path
 
+      path
+
     attachExits: (current, next) ->
       if next.coords.y < current.coords.y
         current.exits.north = next
