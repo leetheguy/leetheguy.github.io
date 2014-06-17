@@ -20,7 +20,7 @@ loadAssets = ->
   ]
 
   walls = [
-    [newTile(32), newTile(48), newTile(64), newTile(80), newTile(96),  newTile(112), newTile(128), newTile(144), newTile(160), newTile(176)],
+    [newTile(32), newTile(48), newTile(64), newTile(80), newTile(96),  newTile(112), newTile(128), newTile(144), newTile(160), newTile(176), newTile(208)],
     [newTile(33), newTile(49), newTile(65), newTile(81), newTile(97),  newTile(113), newTile(129), newTile(145), newTile(161), newTile(177)],
     [newTile(34), newTile(50), newTile(66), newTile(82), newTile(98),  newTile(114), newTile(130), newTile(146), newTile(162), newTile(178)],
     [newTile(35), newTile(51), newTile(67), newTile(83), newTile(99),  newTile(115), newTile(131), newTile(147), newTile(163), newTile(179)],

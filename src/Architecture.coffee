@@ -6,7 +6,7 @@ Architecture =
 
   spawnWall: (level) ->
     floor = Math.floor(level / 10)
-    return app.assets.walls[floor][0]
+    return app.assets.walls[floor][4]
 
 class Wall  extends Architecture
 

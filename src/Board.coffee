@@ -58,6 +58,8 @@ initBoard = ->
     buildTileArray: ->
       @tiles = Grid.populate(21, Tile)
 
+    #TODO refactor this to reduce connections
+    #also needs more cowbell
     plotPaths: ->
       while true
         unmapped = 0
