@@ -37,14 +37,14 @@ describe "Board", ->
         .last().value()
       expect(exit.connected).toBeTruthy()
 
-    it "assigns 3..4 rooms as empty", ->
+    xit "assigns 3..4 rooms as empty", ->
       entries = _.chain(app.board.rooms)
         .flatten().filter (room) -> room.name is "empty"
         .value().length
       expect(entries).toBeLessThan(5)
       expect(entries).toBeGreaterThan(2)
 
-    it "assigns 7..11 rooms as room", ->
+    xit "assigns 7..11 rooms as room", ->
       entries = _.chain(app.board.rooms)
         .flatten().filter (room) -> room.name is "room"
         .value().length

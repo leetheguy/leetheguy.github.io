@@ -33,25 +33,21 @@ initBoard = function() {
       return _results;
     },
     buildRoomArray: function() {
-      var emptyCount, hallCount, i, pointer, roomArray, roomCount, _i, _j, _k;
+      var emptyCount, hallCount, i, pointer, roomArray, roomCount, _i, _j;
       this.rooms = Grid.populate(5, Room);
-      emptyCount = _.random(3, 4);
-      roomCount = _.random(7, 11);
+      emptyCount = 0;
+      roomCount = _.random(5, 9);
       hallCount = 23 - (emptyCount + roomCount);
       pointer = 2;
       roomArray = _.chain(this.rooms).flatten().shuffle().value();
       roomArray[0].name = "entry";
       roomArray[1].name = "exit";
       roomArray[1].connected = true;
-      for (i = _i = 1; 1 <= emptyCount ? _i <= emptyCount : _i >= emptyCount; i = 1 <= emptyCount ? ++_i : --_i) {
-        roomArray[pointer].name = "empty";
-        pointer += 1;
-      }
-      for (i = _j = 1; 1 <= roomCount ? _j <= roomCount : _j >= roomCount; i = 1 <= roomCount ? ++_j : --_j) {
+      for (i = _i = 1; 1 <= roomCount ? _i <= roomCount : _i >= roomCount; i = 1 <= roomCount ? ++_i : --_i) {
         roomArray[pointer].name = "room";
         pointer += 1;
       }
-      for (i = _k = 1; 1 <= hallCount ? _k <= hallCount : _k >= hallCount; i = 1 <= hallCount ? ++_k : --_k) {
+      for (i = _j = 1; 1 <= hallCount ? _j <= hallCount : _j >= hallCount; i = 1 <= hallCount ? ++_j : --_j) {
         roomArray[pointer].name = "hall";
         pointer += 1;
       }
@@ -60,21 +56,25 @@ initBoard = function() {
       return this.tiles = Grid.populate(21, Tile);
     },
     plotPaths: function() {
-      var column, room, _i, _j, _len, _len1, _ref;
-      _ref = this.rooms;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        column = _ref[_i];
-        for (_j = 0, _len1 = column.length; _j < _len1; _j++) {
-          room = column[_j];
+      var room, unmapped, _i, _len, _ref;
+      while (true) {
+        unmapped = 0;
+        _ref = _.flatten(this.rooms);
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          room = _ref[_i];
           if (!room.connected && !(room.name === "empty")) {
+            unmapped += 1;
             this.createPathFrom(room);
           }
+        }
+        if (unmapped === 0) {
+          break;
         }
       }
       return null;
     },
     createPathFrom: function(start) {
-      var current, escapes, next, path, room, _i, _j, _len, _len1;
+      var current, escapes, next, path, room, _i, _j, _len, _len1, _results;
       if (!start.connected) {
         start.seeking = true;
       }
@@ -88,19 +88,18 @@ initBoard = function() {
           path.push(next);
         }
       }
-      if (!_.last(path).connected) {
+      if (_.last(path).connected) {
         for (_i = 0, _len = path.length; _i < _len; _i++) {
           room = path[_i];
-          if (!_.isEmpty(this.findEscapes(room)) && this.createPathFrom(room)[0].connected) {
-            break;
-          }
+          room.connected = true;
         }
+        _results = [];
+        for (_j = 0, _len1 = path.length; _j < _len1; _j++) {
+          room = path[_j];
+          _results.push(room.seeking = false);
+        }
+        return _results;
       }
-      for (_j = 0, _len1 = path.length; _j < _len1; _j++) {
-        room = path[_j];
-        room.connected = true;
-      }
-      return path;
     },
     attachExits: function(current, next) {
       if (next.coords.y < current.coords.y) {
@@ -193,7 +192,15 @@ initBoard = function() {
       return this.renderRoom(room);
     },
     renderExit: function(room) {
-      return this.renderRoom(room);
+      var structure;
+      structure = [[0, 0, 0, 1], [0, 0, 0, 1], [0, 0, 0, 1], [1, 1, 1, 1]];
+      if (!(typeof room.exits.east === "undefined")) {
+        structure[3][1] = 2;
+      }
+      if (!(typeof room.exits.south === "undefined")) {
+        structure[1][3] = 2;
+      }
+      return this.roomToMap(room, structure);
     },
     renderEmpty: function(room) {
       var structure;

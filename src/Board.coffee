@@ -29,8 +29,8 @@ initBoard = ->
     buildRoomArray: ->
       @rooms = Grid.populate(5, Room)
       
-      emptyCount = _.random(3,4)
-      roomCount  = _.random(7,11)
+      emptyCount = 0 #_.random(4,6)
+      roomCount  = _.random(5,9)
       hallCount  = 23 - (emptyCount + roomCount)
 
       pointer    = 2
@@ -41,9 +41,9 @@ initBoard = ->
       roomArray[1].name = "exit"
       roomArray[1].connected = true
 
-      for i in [1..emptyCount]
-        roomArray[pointer].name = "empty"
-        pointer += 1
+      #for i in [1..emptyCount]
+      #  roomArray[pointer].name = "empty"
+      #  pointer += 1
 
       for i in [1..roomCount]
         roomArray[pointer].name = "room"
@@ -59,11 +59,14 @@ initBoard = ->
       @tiles = Grid.populate(21, Tile)
 
     plotPaths: ->
-      for column in @rooms
-        for room in column
+      while true
+        unmapped = 0
+        for room in _.flatten(@rooms)
           if not room.connected and not (room.name is "empty")
+            unmapped += 1
             @createPathFrom room
 
+        break if unmapped is 0
       null
 
     createPathFrom: (start) ->
@@ -71,6 +74,7 @@ initBoard = ->
         start.seeking = true
       path = [start]
 
+      # keep adding random rooms to the path until a connected room or a dead end is found
       until _.last(path).connected or _.isEmpty(@findEscapes(_.last(path)))
         current = _.last(path)
         escapes = @findEscapes(current)
@@ -80,17 +84,10 @@ initBoard = ->
           @attachExits current, next
           path.push(next)
 
-      # if this path isn't connected
-      # recursively call this method on each room in this path
-      # until a connected path is created
-      if not _.last(path).connected
-        for room in path
-          if not _.isEmpty(@findEscapes(room)) and @createPathFrom(room)[0].connected
-              break
-
-      room.connected = true for room in path
-
-      path
+      # if the last room is connected make this path connected
+      if _.last(path).connected
+        room.connected = true for room in path
+        room.seeking = false for room in path
 
     attachExits: (current, next) ->
       if next.coords.y < current.coords.y
@@ -173,7 +170,17 @@ initBoard = ->
       #someTile.spawnPlayer()
 
     renderExit: (room) ->
-      @renderRoom(room)
+      structure = [[0,0,0,1],
+                   [0,0,0,1],
+                   [0,0,0,1],
+                   [1,1,1,1]]
+
+      structure[3][1] = 2 if not (typeof room.exits.east  is "undefined")
+      structure[1][3] = 2 if not (typeof room.exits.south is "undefined")
+
+      @roomToMap room, structure
+
+      #@renderRoom(room)
       #someTile.spawnStairs()
 
     renderEmpty: (room) ->

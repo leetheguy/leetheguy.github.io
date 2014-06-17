@@ -44,7 +44,7 @@ describe("Board", function() {
       }).last().value();
       return expect(exit.connected).toBeTruthy();
     });
-    it("assigns 3..4 rooms as empty", function() {
+    xit("assigns 3..4 rooms as empty", function() {
       var entries;
       entries = _.chain(app.board.rooms).flatten().filter(function(room) {
         return room.name === "empty";
@@ -52,7 +52,7 @@ describe("Board", function() {
       expect(entries).toBeLessThan(5);
       return expect(entries).toBeGreaterThan(2);
     });
-    it("assigns 7..11 rooms as room", function() {
+    xit("assigns 7..11 rooms as room", function() {
       var entries;
       entries = _.chain(app.board.rooms).flatten().filter(function(room) {
         return room.name === "room";
