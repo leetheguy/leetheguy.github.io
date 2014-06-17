@@ -1,3 +1,11 @@
+# H   A   B
+#
+#
+#
+# G
+
+
+
 spriteSheet = null
 
 loadAssets = ->
