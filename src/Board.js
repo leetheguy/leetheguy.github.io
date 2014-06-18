@@ -25,8 +25,8 @@ initBoard = function() {
     buildMap: function() {
       var _i, _results;
       _results = [];
-      for (_i = 0; _i < 21; _i++) {
-        _results.push(this.map.push(_.map(_.range(0, 21), function() {
+      for (_i = 0; _i < 23; _i++) {
+        _results.push(this.map.push(_.map(_.range(0, 23), function() {
           return 1;
         })));
       }
@@ -228,8 +228,8 @@ initBoard = function() {
     },
     roomToMap: function(room, structure) {
       var i, j, x_base, y_base, _i, _j;
-      x_base = (room.coords.x * 4) + 1;
-      y_base = (room.coords.y * 4) + 1;
+      x_base = (room.coords.x * 4) + 2;
+      y_base = (room.coords.y * 4) + 2;
       for (i = _i = 0; _i < 4; i = ++_i) {
         for (j = _j = 0; _j < 4; j = ++_j) {
           this.map[x_base + i][y_base + j] = structure[i][j];
@@ -240,11 +240,11 @@ initBoard = function() {
     renderTiles: function() {
       var element, i, j, tile, _i, _results;
       _results = [];
-      for (i = _i = 1; _i <= 19; i = ++_i) {
+      for (i = _i = 1; _i <= 21; i = ++_i) {
         _results.push((function() {
           var _j, _results1;
           _results1 = [];
-          for (j = _j = 1; _j <= 19; j = ++_j) {
+          for (j = _j = 1; _j <= 21; j = ++_j) {
             switch (this.map[i][j]) {
               case 0:
                 element = Architecture.spawnFloor(this.level, this.mapPointSurroundings(i, j));

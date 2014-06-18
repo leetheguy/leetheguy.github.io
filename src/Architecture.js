@@ -7,7 +7,8 @@ Architecture = {
   spawnFloor: function(level) {
     var style;
     level = Math.floor(level / 10);
-    style = _.random(1);
+    style = _.random(5);
+    style = style === 1 ? 0 : 1;
     return app.assets.floors[level][style];
   },
   spawnWall: function(level, surroundings) {

@@ -1,7 +1,8 @@
 Architecture =
   spawnFloor: (level) ->
     level = Math.floor(level / 10)
-    style = _.random(1)
+    style = _.random(5)
+    style = if style is 1 then 0 else 1
     return app.assets.floors[level][style]
 
   spawnWall: (level, surroundings) ->

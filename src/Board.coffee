@@ -23,8 +23,8 @@ initBoard = ->
       @rooms = []
 
     buildMap: ->
-      for [0...21]
-        @map.push _.map(_.range(0, 21), -> 1)
+      for [0...23]
+        @map.push _.map(_.range(0, 23), -> 1)
 
     buildRoomArray: ->
       @rooms = Grid.populate(5, Room)
@@ -58,8 +58,6 @@ initBoard = ->
     buildTileArray: ->
       @tiles = Grid.populate(21, Tile)
 
-    #TODO refactor this to reduce connections
-    #also needs more cowbell
     plotPaths: ->
       while true
         unmapped = 0
@@ -216,8 +214,8 @@ initBoard = ->
       @roomToMap room, structure
 
     roomToMap: (room, structure) ->
-      x_base = (room.coords.x * 4) + 1
-      y_base = (room.coords.y * 4) + 1
+      x_base = (room.coords.x * 4) + 2
+      y_base = (room.coords.y * 4) + 2
 
       for i in [0...4]
         for j in [0...4]
@@ -226,8 +224,8 @@ initBoard = ->
       @map
 
     renderTiles: ->
-      for i in [1..19]
-        for j in [1..19]
+      for i in [1..21]
+        for j in [1..21]
           switch @map[i][j]
             when 0
               element = Architecture.spawnFloor @level, @mapPointSurroundings(i, j)
