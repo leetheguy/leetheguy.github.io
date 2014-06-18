@@ -164,8 +164,8 @@ initBoard = ->
                    [0,0,0,1],
                    [1,1,1,1]]
 
-      structure[3][1] = 2 if not (typeof room.exits.east  is "undefined")
-      structure[1][3] = 2 if not (typeof room.exits.south is "undefined")
+      structure[3][1] = 0 if not (typeof room.exits.east  is "undefined")
+      structure[1][3] = 0 if not (typeof room.exits.south is "undefined")
 
       @roomToMap room, structure
 
@@ -179,8 +179,8 @@ initBoard = ->
                    [0,0,0,1],
                    [1,1,1,1]]
 
-      structure[3][1] = 2 if not (typeof room.exits.east  is "undefined")
-      structure[1][3] = 2 if not (typeof room.exits.south is "undefined")
+      structure[3][1] = 0 if not (typeof room.exits.east  is "undefined")
+      structure[1][3] = 0 if not (typeof room.exits.south is "undefined")
 
       @roomToMap room, structure
 
@@ -230,11 +230,11 @@ initBoard = ->
         for j in [1..19]
           switch @map[i][j]
             when 0
-              element = Architecture.spawnFloor @level
+              element = Architecture.spawnFloor @level, @mapPointSurroundings(i, j)
             when 1
-              element = Architecture.spawnWall  @level
+              element = Architecture.spawnWall  @level, @mapPointSurroundings(i, j)
             when 2
-              element = Architecture.spawnFloor @level
+              element = Architecture.spawnFloor @level, @mapPointSurroundings(i, j)
           tile = @tiles[i-1][j-1]
           tile.children.push element
           @addChild tile

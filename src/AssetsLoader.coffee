@@ -4,56 +4,60 @@
 #
 # G
 
-
-
-spriteSheet = null
-
 loadAssets = ->
-  sprites =
+  architectureImage =
     images: ["assets/images/architecture.png"]
     frames:
       width: 32
       height: 32
 
-  spriteSheet = new cjs.SpriteSheet(sprites)
+  a = new cjs.SpriteSheet(architectureImage)
 
-  stairs = newTile(6)
+  stairs = newSprite(6, a)
 
   floors = [
-    [newTile(0), newTile(16)],
-    [newTile(1), newTile(17)],
-    [newTile(2), newTile(18)],
-    [newTile(3), newTile(19)],
-    [newTile(4), newTile(20)]
+    [newSprite(0,a), newSprite(16,a)],
+    [newSprite(1,a), newSprite(17,a)],
+    [newSprite(2,a), newSprite(18,a)],
+    [newSprite(3,a), newSprite(19,a)],
+    [newSprite(4,a), newSprite(20,a)]
   ]
 
-  walls = [
-    [newTile(32), newTile(48), newTile(64), newTile(80), newTile(96),  newTile(112), newTile(128), newTile(144), newTile(160), newTile(176), newTile(208)],
-    [newTile(33), newTile(49), newTile(65), newTile(81), newTile(97),  newTile(113), newTile(129), newTile(145), newTile(161), newTile(177)],
-    [newTile(34), newTile(50), newTile(66), newTile(82), newTile(98),  newTile(114), newTile(130), newTile(146), newTile(162), newTile(178)],
-    [newTile(35), newTile(51), newTile(67), newTile(83), newTile(99),  newTile(115), newTile(131), newTile(147), newTile(163), newTile(179)],
-    [newTile(36), newTile(52), newTile(68), newTile(84), newTile(100), newTile(116), newTile(132), newTile(148), newTile(164), newTile(180)]
+  floorDecor = [
+    [newSprite(6,a),  newSprite(22,a)],
+    [newSprite(7,a),  newSprite(23,a)],
+    [newSprite(8,a),  newSprite(24,a)],
+    [newSprite(9,a),  newSprite(25,a)],
+    [newSprite(10,a), newSprite(26,a)]
   ]
 
-  floor_decor = [
-    [newTile(6),  newTile(22)],
-    [newTile(7),  newTile(23)],
-    [newTile(8),  newTile(24)],
-    [newTile(9),  newTile(25)],
-    [newTile(10), newTile(26)]
+  wallDecor = [
+    [newSprite(38,a), newSprite(54,a)],
+    [newSprite(39,a), newSprite(55,a)],
+    [newSprite(40,a), newSprite(56,a)],
+    [newSprite(41,a), newSprite(57,a)],
+    [newSprite(42,a), newSprite(58,a)]
   ]
 
-  wall_decor = [
-    [newTile(38), newTile(54)],
-    [newTile(39), newTile(55)],
-    [newTile(40), newTile(56)],
-    [newTile(41), newTile(57)],
-    [newTile(42), newTile(58)]
-  ]
+  wallImage =
+    images: ["assets/images/walls.png"]
+    frames:
+      width: 16
+      height: 16
+  
+  w = new cjs.SpriteSheet(wallImage)
 
-  return {stairs: stairs, floors: floors, walls: walls, floor_decor: floor_decor, wall_decor: wall_decor}
+  wallParts = []
+  for i in [0...5]
+    wallParts[i] = []
+    for j in [0...24]
+      n = (Math.floor(j / 4) * 32) + j % 4 + (i * 4)
+      wallParts[i][j] = newSprite(n, w)
 
-newTile = (x) ->
-  tile = new cjs.Sprite(spriteSheet)
-  tile.gotoAndStop(x)
-  tile
+
+  return {stairs: stairs, floors: floors, wallParts: wallParts, floorDecor: floorDecor, wallDecor: wallDecor}
+
+newSprite = (x, sheet) ->
+  sprite = new cjs.Sprite(sheet)
+  sprite.gotoAndStop(x)
+  sprite

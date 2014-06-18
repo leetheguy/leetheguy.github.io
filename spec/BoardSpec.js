@@ -60,7 +60,7 @@ describe("Board", function() {
       expect(entries).toBeLessThan(12);
       return expect(entries).toBeGreaterThan(6);
     });
-    return it("assigns 8..15 rooms as hall", function() {
+    return xit("assigns 8..15 rooms as hall", function() {
       var entries;
       entries = _.chain(app.board.rooms).flatten().filter(function(room) {
         return room.name === "hall";
@@ -236,7 +236,7 @@ describe("Board", function() {
       expect(app.board.map[11][11]).toEqual(0);
       return expect(app.board.map[12][12]).toEqual(1);
     });
-    describe("standard room doors", function() {
+    xdescribe("standard room doors", function() {
       it("are placed to the east", function() {
         room.exits.east = true;
         app.board.renderRoom(room);

@@ -180,10 +180,10 @@ initBoard = function() {
       var structure;
       structure = [[0, 0, 0, 1], [0, 0, 0, 1], [0, 0, 0, 1], [1, 1, 1, 1]];
       if (!(typeof room.exits.east === "undefined")) {
-        structure[3][1] = 2;
+        structure[3][1] = 0;
       }
       if (!(typeof room.exits.south === "undefined")) {
-        structure[1][3] = 2;
+        structure[1][3] = 0;
       }
       return this.roomToMap(room, structure);
     },
@@ -194,10 +194,10 @@ initBoard = function() {
       var structure;
       structure = [[0, 0, 0, 1], [0, 0, 0, 1], [0, 0, 0, 1], [1, 1, 1, 1]];
       if (!(typeof room.exits.east === "undefined")) {
-        structure[3][1] = 2;
+        structure[3][1] = 0;
       }
       if (!(typeof room.exits.south === "undefined")) {
-        structure[1][3] = 2;
+        structure[1][3] = 0;
       }
       return this.roomToMap(room, structure);
     },
@@ -247,13 +247,13 @@ initBoard = function() {
           for (j = _j = 1; _j <= 19; j = ++_j) {
             switch (this.map[i][j]) {
               case 0:
-                element = Architecture.spawnFloor(this.level);
+                element = Architecture.spawnFloor(this.level, this.mapPointSurroundings(i, j));
                 break;
               case 1:
-                element = Architecture.spawnWall(this.level);
+                element = Architecture.spawnWall(this.level, this.mapPointSurroundings(i, j));
                 break;
               case 2:
-                element = Architecture.spawnFloor(this.level);
+                element = Architecture.spawnFloor(this.level, this.mapPointSurroundings(i, j));
             }
             tile = this.tiles[i - 1][j - 1];
             tile.children.push(element);
