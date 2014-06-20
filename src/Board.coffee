@@ -23,15 +23,14 @@ initBoard = ->
       @rooms = []
 
     buildMap: ->
-      for [0...21]
-        @map.push _.map(_.range(0, 21), -> 1)
+      for [0...23]
+        @map.push _.map(_.range(0, 23), -> 1)
 
     buildRoomArray: ->
       @rooms = Grid.populate(5, Room)
       
-      emptyCount = 0 #_.random(4,6)
       roomCount  = _.random(5,9)
-      hallCount  = 23 - (emptyCount + roomCount)
+      hallCount  = 23 - roomCount
 
       pointer    = 2
       roomArray  = _.chain(@rooms).flatten().shuffle().value()
@@ -162,8 +161,8 @@ initBoard = ->
                    [0,0,0,1],
                    [1,1,1,1]]
 
-      structure[3][1] = 2 if not (typeof room.exits.east  is "undefined")
-      structure[1][3] = 2 if not (typeof room.exits.south is "undefined")
+      structure[3][1] = 0 if not (typeof room.exits.east  is "undefined")
+      structure[1][3] = 0 if not (typeof room.exits.south is "undefined")
 
       @roomToMap room, structure
 
@@ -177,8 +176,8 @@ initBoard = ->
                    [0,0,0,1],
                    [1,1,1,1]]
 
-      structure[3][1] = 2 if not (typeof room.exits.east  is "undefined")
-      structure[1][3] = 2 if not (typeof room.exits.south is "undefined")
+      structure[3][1] = 0 if not (typeof room.exits.east  is "undefined")
+      structure[1][3] = 0 if not (typeof room.exits.south is "undefined")
 
       @roomToMap room, structure
 
@@ -214,8 +213,8 @@ initBoard = ->
       @roomToMap room, structure
 
     roomToMap: (room, structure) ->
-      x_base = (room.coords.x * 4) + 1
-      y_base = (room.coords.y * 4) + 1
+      x_base = (room.coords.x * 4) + 2
+      y_base = (room.coords.y * 4) + 2
 
       for i in [0...4]
         for j in [0...4]
@@ -224,15 +223,15 @@ initBoard = ->
       @map
 
     renderTiles: ->
-      for i in [1..19]
-        for j in [1..19]
+      for i in [1..21]
+        for j in [1..21]
           switch @map[i][j]
             when 0
-              element = Architecture.spawnFloor @level
+              element = Architecture.spawnFloor @level, @mapPointSurroundings(i, j)
             when 1
-              element = Architecture.spawnWall  @level
+              element = Architecture.spawnWall  @level, @mapPointSurroundings(i, j)
             when 2
-              element = Architecture.spawnFloor @level
+              element = Architecture.spawnFloor @level, @mapPointSurroundings(i, j)
           tile = @tiles[i-1][j-1]
           tile.children.push element
           @addChild tile
