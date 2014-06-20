@@ -33,11 +33,10 @@ initBoard = function() {
       return _results;
     },
     buildRoomArray: function() {
-      var emptyCount, hallCount, i, pointer, roomArray, roomCount, _i, _j;
+      var hallCount, i, pointer, roomArray, roomCount, _i, _j;
       this.rooms = Grid.populate(5, Room);
-      emptyCount = 0;
       roomCount = _.random(5, 9);
-      hallCount = 23 - (emptyCount + roomCount);
+      hallCount = 23 - roomCount;
       pointer = 2;
       roomArray = _.chain(this.rooms).flatten().shuffle().value();
       roomArray[0].name = "entry";

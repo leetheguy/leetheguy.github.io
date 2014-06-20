@@ -29,9 +29,8 @@ initBoard = ->
     buildRoomArray: ->
       @rooms = Grid.populate(5, Room)
       
-      emptyCount = 0 #_.random(4,6)
       roomCount  = _.random(5,9)
-      hallCount  = 23 - (emptyCount + roomCount)
+      hallCount  = 23 - roomCount
 
       pointer    = 2
       roomArray  = _.chain(@rooms).flatten().shuffle().value()

@@ -1,9 +1,9 @@
 describe "Board", ->
   describe "buildMap", ->
-    it "creates a 21x21 array as a map", ->
-      expect(app.board.map.length).toEqual(21)
-      expect(app.board.map[15].length).toEqual(21)
-      expect(app.board.map[20].length).toEqual(21)
+    it "creates a 23x23 array as a map", ->
+      expect(app.board.map.length).toEqual(23)
+      expect(app.board.map[15].length).toEqual(23)
+      expect(app.board.map[20].length).toEqual(23)
 
   describe "initialization", ->
     it "creates a new board at level 1", ->
@@ -37,26 +37,19 @@ describe "Board", ->
         .last().value()
       expect(exit.connected).toBeTruthy()
 
-    xit "assigns 3..4 rooms as empty", ->
-      entries = _.chain(app.board.rooms)
-        .flatten().filter (room) -> room.name is "empty"
-        .value().length
-      expect(entries).toBeLessThan(5)
-      expect(entries).toBeGreaterThan(2)
-
-    xit "assigns 7..11 rooms as room", ->
+    it "assigns 5..9 rooms as room", ->
       entries = _.chain(app.board.rooms)
         .flatten().filter (room) -> room.name is "room"
         .value().length
-      expect(entries).toBeLessThan(12)
-      expect(entries).toBeGreaterThan(6)
+      expect(entries).toBeLessThan(10)
+      expect(entries).toBeGreaterThan(4)
 
-    xit "assigns 8..15 rooms as hall", ->
+    it "assigns 14..18 rooms as hall", ->
       entries = _.chain(app.board.rooms)
         .flatten().filter (room) -> room.name is "hall"
         .value().length
-      expect(entries).toBeLessThan(16)
-      expect(entries).toBeGreaterThan(7)
+      expect(entries).toBeLessThan(19)
+      expect(entries).toBeGreaterThan(13)
 
   describe "buildTileArray", ->
     it "creates a 21x21 array", ->
@@ -73,14 +66,14 @@ describe "Board", ->
       connectedRooms = _.filter(_.flatten(app.board.rooms), (room) -> room.connected)
       expect(connectedRooms.length).toEqual(25)
 
-    xit "intermittently fails: makes every non-empty room have an exit", ->
+    it "makes every non-empty room have an exit", ->
       exitableRooms = _.filter(_.flatten(app.board.rooms), (room) ->
         not _.isEmpty(room.exits) or room.name is "empty"
       )
       expect(exitableRooms.length).toEqual(25)
 
    describe "createPathFrom", ->
-     xit "returns an array of rooms that ends in a connected room or a dead end", ->
+     it "returns an array of rooms that ends in a connected room or a dead end", ->
        entry = _.where(_.flatten(app.board.rooms), name: "entry")[0]
        path  = app.board.createPathFrom(entry)
        last  = _.last(path)
@@ -199,9 +192,9 @@ describe "Board", ->
 
     it "places rooms accurately on the map", ->
       app.board.renderRoom room
-      expect(app.board.map[9][9]).toEqual(0)
-      expect(app.board.map[11][11]).toEqual(0)
-      expect(app.board.map[12][12]).toEqual(1)
+      expect(app.board.map[10][10]).toEqual(0)
+      expect(app.board.map[12][12]).toEqual(0)
+      expect(app.board.map[13][13]).toEqual(1)
 
     xdescribe "standard room doors", ->
       it "are placed to the east",  ->
@@ -218,24 +211,24 @@ describe "Board", ->
       it "can have a north passage", ->
         room.exits.north = true
         app.board.renderHall room
-        expect(app.board.map[10][9]).toEqual(0)
+        expect(app.board.map[11][10]).toEqual(0)
 
       it "are placed to the east",  ->
         room.exits.east = true
         app.board.renderHall room
-        expect(app.board.map[12][10]).toEqual(0)
-        expect(app.board.map[11][10]).toEqual(0)
+        expect(app.board.map[13][11]).toEqual(0)
+        expect(app.board.map[12][11]).toEqual(0)
 
       it "are placed to the south", ->
         room.exits.south = true
         app.board.renderHall room
-        expect(app.board.map[10][12]).toEqual(0)
-        expect(app.board.map[10][11]).toEqual(0)
+        expect(app.board.map[11][13]).toEqual(0)
+        expect(app.board.map[11][12]).toEqual(0)
 
       it "are placed to the west",  ->
         room.exits.west = true
         app.board.renderHall room
-        expect(app.board.map[9][10]).toEqual(0)
+        expect(app.board.map[10][11]).toEqual(0)
 
     it "renders empties", ->
       room.name = "empty"
@@ -251,10 +244,10 @@ describe "Board", ->
       expect(app.board.mapPointSurroundings(13,0)).toBe(null)
 
     it "returns null if point is on right edge of map", ->
-      expect(app.board.mapPointSurroundings(20,13)).toBe(null)
+      expect(app.board.mapPointSurroundings(22,11)).toBe(null)
 
     it "returns null if point is on bottom edge of map", ->
-      expect(app.board.mapPointSurroundings(13,20)).toBe(null)
+      expect(app.board.mapPointSurroundings(11,22)).toBe(null)
 
     it "returns null if point is on left edge of map", ->
       expect(app.board.mapPointSurroundings(0,13)).toBe(null)
