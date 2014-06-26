@@ -6,7 +6,8 @@ initGame = ->
 
   app.assets      = loadAssets()
   app.board       = initBoard()
-  app.dispatcher  = initDispatcher()
+  app.dispatcher  = dispatcher
+  app.dispatcher.init()
 
   cjs.Ticker.addEventListener "tick", tick
   return

@@ -1,51 +1,69 @@
-initDispatcher = ->
-  State = (@navList, @eventList, @screen) ->
-    load = ->
-      @beforeState()
-      @duringState()
+State = (@navList, @eventList, @screen) ->
+  @load = ->
+    @beforeState()
+    @duringState()
+    this
 
-    beforeState = ->
-      @addScreen()
-      null
+  @beforeState = ->
+    @addScreen()
+    null
 
-    addScreen = ->
-      app.addChild @screen
-      null
+  @addScreen = ->
+    app.addChild @screen
+    null
 
-    duringState = ->
-      null
+  @duringState = ->
+    null
 
-    filterCommands = ->
-      null
-    
-    unload = ->
-      @afterState()
-      null
+  @filterCommands = ->
+    null
+  
+  @unload = ->
+    @afterState()
+    null
 
-    afterState = ->
-      @removeScreen()
-      null
+  @afterState = ->
+    @removeScreen()
+    null
 
-    removeScreen = ->
-      app.removeChild @screen
-      null
+  @removeScreen = ->
+    app.removeChild @screen
+    null
 
+  this
 
-  dispatcher =
-    initScreens: ->
-      @screens =
-        board: app.board
+dispatcher =
+  initScreens: ->
+    @screens =
+      splash1: initSplash1()
+      board:   app.board
 
-    initStates: ->
-      @states =
-        #splash1: new State [], [], screens.splash1
-        #splash2: new State [], [], screens.splash2
-        board: new State([], [], dispatcher.screens.board)
+  initStates: ->
+    splash1 = new State {}, [], @screens.splash1
+    splash1.duringState = ->
+      #new Tween.call(app.dispatcher.dispatch(new cjs.Event("foo")))
+    splash2 = new State {}, [], @screens.splash2
 
-    init: ->
-      @initScreens()
-      @initStates()
-      @states.board.load
-      this
+    @states =
+      splash1: splash1
+      splash2: splash2
+      board: new State {}, [], @screens.board
 
-  dispatcher.init()
+  init: ->
+    cjs.EventDispatcher.initialize this
+    @initScreens()
+    @initStates()
+    @current_state = @states.splash1.load()
+    this
+
+  dispatch: (event) ->
+    console.info "yo"
+    #if @current_state.navList[event.type] != undefined
+    #  @current_state.unload()
+    #  @current_state = @states[@current_state.navList[event.type]].load()
+
+    #else if @current_state.eventList.indexOf(event.type) >= 0
+    #  @dispatchEvent event
+
+    null
+
