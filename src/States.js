@@ -43,14 +43,24 @@ dispatcher = {
   initScreens: function() {
     return this.screens = {
       splash1: initSplash1(),
+      splash2: initSplash2(),
       board: app.board
     };
   },
   initStates: function() {
     var splash1, splash2;
-    splash1 = new State({}, [], this.screens.splash1);
-    splash1.duringState = function() {};
-    splash2 = new State({}, [], this.screens.splash2);
+    splash1 = new State({
+      nextSplash: "splash2"
+    }, [], this.screens.splash1);
+    splash1.duringState = function() {
+      return new cjs.Tween().wait(3000).call(app.dispatcher.dispatch, [new cjs.Event("nextSplash")], app.dispatcher);
+    };
+    splash2 = new State({
+      nextSplash: "board"
+    }, [], this.screens.splash2);
+    splash2.duringState = function() {
+      return new cjs.Tween().wait(3000).call(app.dispatcher.dispatch, [new cjs.Event("nextSplash")], app.dispatcher);
+    };
     return this.states = {
       splash1: splash1,
       splash2: splash2,
@@ -65,7 +75,10 @@ dispatcher = {
     return this;
   },
   dispatch: function(event) {
-    console.info("yo");
+    if (this.current_state.navList[event.type] !== void 0) {
+      this.current_state.unload();
+      this.current_state = this.states[this.current_state.navList[event.type]].load();
+    }
     return null;
   }
 };
