@@ -53,13 +53,13 @@ dispatcher = {
       nextSplash: "splash2"
     }, [], this.screens.splash1);
     splash1.duringState = function() {
-      return new cjs.Tween().wait(3000).call(app.dispatcher.dispatch, [new cjs.Event("nextSplash")], app.dispatcher);
+      return new cjs.Tween().wait(300).call(app.dispatcher.dispatch, [new cjs.Event("nextSplash")], app.dispatcher);
     };
     splash2 = new State({
       nextSplash: "board"
     }, [], this.screens.splash2);
     splash2.duringState = function() {
-      return new cjs.Tween().wait(3000).call(app.dispatcher.dispatch, [new cjs.Event("nextSplash")], app.dispatcher);
+      return new cjs.Tween().wait(300).call(app.dispatcher.dispatch, [new cjs.Event("nextSplash")], app.dispatcher);
     };
     return this.states = {
       splash1: splash1,

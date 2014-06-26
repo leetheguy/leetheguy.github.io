@@ -42,10 +42,10 @@ dispatcher =
   initStates: ->
     splash1 = new State {nextSplash: "splash2"}, [], @screens.splash1
     splash1.duringState = ->
-      new cjs.Tween().wait(3000).call(app.dispatcher.dispatch, [new cjs.Event("nextSplash")], app.dispatcher)
+      new cjs.Tween().wait(300).call(app.dispatcher.dispatch, [new cjs.Event("nextSplash")], app.dispatcher)
     splash2 = new State {nextSplash: "board"}, [], @screens.splash2
     splash2.duringState = ->
-      new cjs.Tween().wait(3000).call(app.dispatcher.dispatch, [new cjs.Event("nextSplash")], app.dispatcher)
+      new cjs.Tween().wait(300).call(app.dispatcher.dispatch, [new cjs.Event("nextSplash")], app.dispatcher)
 
     @states =
       splash1: splash1
