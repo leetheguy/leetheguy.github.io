@@ -1,0 +1,8 @@
+"tile clicked"
+  if floor only
+    "player requests move"
+  if closed door
+    "player requests entry"
+  if monster
+    "player attacks mosnter"
+

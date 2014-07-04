@@ -2,7 +2,7 @@
 var loadAssets, newSprite;
 
 loadAssets = function() {
-  var a, architectureImage, floorDecor, floors, i, j, n, stairs, w, wallDecor, wallImage, wallParts, _i, _j;
+  var a, architectureImage, floorDecor, floors, h, hero, heroImage, i, j, n, stairs, w, wallDecor, wallImage, wallParts, _i, _j;
   architectureImage = {
     images: ["assets/images/architecture.png"],
     frames: {
@@ -31,12 +31,22 @@ loadAssets = function() {
       wallParts[i][j] = newSprite(n, w);
     }
   }
+  heroImage = {
+    images: ["assets/images/wizard.gif"],
+    frames: {
+      width: 32,
+      height: 32
+    }
+  };
+  h = new cjs.SpriteSheet(heroImage);
+  hero = newSprite(0, h);
   return {
     stairs: stairs,
     floors: floors,
     wallParts: wallParts,
     floorDecor: floorDecor,
-    wallDecor: wallDecor
+    wallDecor: wallDecor,
+    hero: hero
   };
 };
 

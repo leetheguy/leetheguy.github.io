@@ -1,0 +1,46 @@
+<TextureAtlas imagePath='assets/images/interface.png'>
+    <SubTexture name='red lens 0'    x='0'    y='0'   width='48' height='48'/>
+    <SubTexture name='red lens 1'    x='48'   y='0'   width='48' height='48'/>
+    <SubTexture name='red lens 2'    x='96'   y='0'   width='48' height='48'/>
+    <SubTexture name='red lens 3'    x='144'  y='0'   width='48' height='48'/>
+    <SubTexture name='red lens 4'    x='192'  y='0'   width='48' height='48'/>
+    <SubTexture name='red lens 5'    x='240'  y='0'   width='48' height='48'/>
+    <SubTexture name='green lens 0'  x='0'    y='49'  width='48' height='48'/>
+    <SubTexture name='green lens 1'  x='48'   y='49'  width='48' height='48'/>
+    <SubTexture name='green lens 2'  x='96'   y='49'  width='48' height='48'/>
+    <SubTexture name='green lens 3'  x='144'  y='49'  width='48' height='48'/>
+    <SubTexture name='green lens 4'  x='192'  y='49'  width='48' height='48'/>
+    <SubTexture name='green lens 5'  x='240'  y='49'  width='48' height='48'/>
+    <SubTexture name='blue lens 0'   x='0'    y='97'  width='48' height='48'/>
+    <SubTexture name='blue lens 1'   x='48'   y='97'  width='48' height='48'/>
+    <SubTexture name='blue lens 2'   x='96'   y='97'  width='48' height='48'/>
+    <SubTexture name='blue lens 3'   x='144'  y='97'  width='48' height='48'/>
+    <SubTexture name='blue lens 4'   x='192'  y='97'  width='48' height='48'/>
+    <SubTexture name='blue lens 5'   x='240'  y='97'  width='48' height='48'/>
+    <SubTexture name='red icon 0'    x='0'    y='145' width='48' height='48'/>
+    <SubTexture name='red icon 1'    x='48'   y='145' width='48' height='48'/>
+    <SubTexture name='red icon 2'    x='96'   y='145' width='48' height='48'/>
+    <SubTexture name='red icon 3'    x='144'  y='145' width='48' height='48'/>
+    <SubTexture name='red icon 4'    x='192'  y='145' width='48' height='48'/>
+    <SubTexture name='red icon 5'    x='240'  y='145' width='48' height='48'/>
+    <SubTexture name='green icon 0'  x='0'    y='143' width='48' height='48'/>
+    <SubTexture name='green icon 1'  x='48'   y='193' width='48' height='48'/>
+    <SubTexture name='green icon 2'  x='96'   y='193' width='48' height='48'/>
+    <SubTexture name='green icon 3'  x='144'  y='193' width='48' height='48'/>
+    <SubTexture name='green icon 4'  x='192'  y='193' width='48' height='48'/>
+    <SubTexture name='green icon 5'  x='240'  y='193' width='48' height='48'/>
+    <SubTexture name='blue icon 0'   x='0'    y='145' width='48' height='48'/>
+    <SubTexture name='blue icon 2'   x='48'   y='241' width='48' height='48'/>
+    <SubTexture name='blue icon 1'   x='96'   y='241' width='48' height='48'/>
+    <SubTexture name='blue icon 3'   x='144'  y='241' width='48' height='48'/>
+    <SubTexture name='blue icon 4'   x='192'  y='241' width='48' height='48'/>
+    <SubTexture name='blue icon 5'   x='240'  y='241' width='48' height='48'/>
+    <SubTexture name='plus_one'      x='0'    y='145' width='48' height='48'/>
+    <SubTexture name='menu'          x='0'    y='192' width='48' height='48'/>
+    <SubTexture name='abilities'     x='0'    y='240' width='48' height='48'/>
+    <SubTexture name='left'          x='288'  y='0'   width='16' height='48'/>
+    <SubTexture name='right'         x='304'  y='0'   width='16' height='48'/>
+    <SubTexture name='heart'         x='288'  y='48'  width='24' height='20'/>
+    <SubTexture name='close'         x='288'  y='72'  width='16' height='16'/>
+    <SubTexture name='help'          x='304'  y='72'  width='16' height='16'/>
+</TextureAtlas>

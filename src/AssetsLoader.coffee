@@ -1,9 +1,3 @@
-# H   A   B
-#
-#
-#
-# G
-
 loadAssets = ->
   architectureImage =
     images: ["assets/images/architecture.png"]
@@ -54,8 +48,17 @@ loadAssets = ->
       n = (Math.floor(j / 4) * 32) + j % 4 + (i * 4)
       wallParts[i][j] = newSprite(n, w)
 
+  heroImage =
+    images: ["assets/images/wizard.gif"]
+    frames:
+      width: 32
+      height: 32
+  
+  h = new cjs.SpriteSheet(heroImage)
 
-  return {stairs: stairs, floors: floors, wallParts: wallParts, floorDecor: floorDecor, wallDecor: wallDecor}
+  hero = newSprite(0, h)
+
+  return {stairs: stairs, floors: floors, wallParts: wallParts, floorDecor: floorDecor, wallDecor: wallDecor, hero: hero}
 
 newSprite = (x, sheet) ->
   sprite = new cjs.Sprite(sheet)

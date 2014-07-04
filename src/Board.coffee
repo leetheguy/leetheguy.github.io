@@ -167,8 +167,16 @@ initBoard = ->
       @roomToMap room, structure
 
     renderEntry: (room) ->
-      @renderRoom(room)
-      #someTile.spawnPlayer()
+      structure = [[0,0,0,1],
+                   [0,'h',0,1],
+                   [0,0,0,1],
+                   [1,1,1,1]]
+
+      structure[3][1] = 0 if not (typeof room.exits.east  is "undefined")
+      structure[1][3] = 0 if not (typeof room.exits.south is "undefined")
+
+      @roomToMap room, structure
+
 
     renderExit: (room) ->
       structure = [[0,0,0,1],
@@ -225,15 +233,23 @@ initBoard = ->
     renderTiles: ->
       for i in [1..21]
         for j in [1..21]
+          elements = []
           switch @map[i][j]
             when 0
-              element = Architecture.spawnFloor @level, @mapPointSurroundings(i, j)
+              elements.push Floor.spawn @level, @mapPointSurroundings(i, j)
             when 1
-              element = Architecture.spawnWall  @level, @mapPointSurroundings(i, j)
+              elements.push Wall.spawn @level, @mapPointSurroundings(i, j)
             when 2
-              element = Architecture.spawnFloor @level, @mapPointSurroundings(i, j)
+              elements.push Architecture.spawnFloor @level, @mapPointSurroundings(i, j)
+            when 'h'
+              elements.push Floor.spawn @level, @mapPointSurroundings(i, j)
+              elements.push app.hero
+
           tile = @tiles[i-1][j-1]
-          tile.children.push element
+
+          for element in elements
+            tile.addChild element
+
           @addChild tile
 
      mapPointSurroundings: (x,y) ->
@@ -244,7 +260,9 @@ initBoard = ->
          for i in [x-1..x+1]
            surroundings.push []
            for j in [y-1..y+1]
-             _.last(surroundings).push @map[i][j]
+             s = @map[i][j]
+             s = if s != 0 and s != 1 then 0 else s
+             _.last(surroundings).push s
 
          return surroundings
 

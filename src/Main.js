@@ -7,9 +7,11 @@ app = null;
 
 initGame = function() {
   app = new cjs.Stage("ternion");
-  app.assets = loadAssets();
-  app.board = initBoard();
   app.dispatcher = dispatcher;
+  cjs.EventDispatcher.initialize(app.dispatcher);
+  app.assets = loadAssets();
+  app.hero = new Hero();
+  app.board = initBoard();
   app.dispatcher.init();
   cjs.Ticker.addEventListener("tick", tick);
 };

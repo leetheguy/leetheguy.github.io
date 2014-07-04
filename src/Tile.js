@@ -8,7 +8,21 @@ Tile = function(point, grid) {
   this.width = 32;
   this.height = 32;
   this.x = this.coords.x * this.width;
-  return this.y = this.coords.y * this.height;
+  this.y = this.coords.y * this.height;
+  this.clickHandler = function(event) {
+    return app.dispatcher.dispatch(new Command("player requests move", {
+      fromPt: app.hero.parent.coords,
+      toPt: this.coords
+    }));
+  };
+  this.playerRequestsMove = function(command) {
+    if (command.toX === this.coords.x && command.toY === this.coords.y) {
+      return console.info(this.coords);
+    }
+  };
+  this.on("click", this.clickHandler, this);
+  app.dispatcher.on("player requests move", this.playerRequestsMove, this);
+  return this;
 };
 
 Tile.prototype = Object.create(cjs.Container.prototype);

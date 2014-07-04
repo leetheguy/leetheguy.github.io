@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "Characters.js",
+  "sourceRoot": "..",
+  "sources": [
+    "src/Characters.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA,IAAA,IAAA;;AAAA,IAAA,GAAO,SAAA,GAAA;SACL,CAAC,CAAC,MAAF,CAAS,IAAT,EAAe,GAAG,CAAC,MAAM,CAAC,IAA1B,EADK;AAAA,CAAP,CAAA;;AAAA,IAGI,CAAC,SAAL,GAAiB,MAAM,CAAC,MAAP,CAAc,GAAG,CAAC,MAAM,CAAC,SAAzB,CAHjB,CAAA"
+}

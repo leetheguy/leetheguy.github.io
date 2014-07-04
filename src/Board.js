@@ -187,7 +187,15 @@ initBoard = function() {
       return this.roomToMap(room, structure);
     },
     renderEntry: function(room) {
-      return this.renderRoom(room);
+      var structure;
+      structure = [[0, 0, 0, 1], [0, 'h', 0, 1], [0, 0, 0, 1], [1, 1, 1, 1]];
+      if (!(typeof room.exits.east === "undefined")) {
+        structure[3][1] = 0;
+      }
+      if (!(typeof room.exits.south === "undefined")) {
+        structure[1][3] = 0;
+      }
+      return this.roomToMap(room, structure);
     },
     renderExit: function(room) {
       var structure;
@@ -237,25 +245,33 @@ initBoard = function() {
       return this.map;
     },
     renderTiles: function() {
-      var element, i, j, tile, _i, _results;
+      var element, elements, i, j, tile, _i, _results;
       _results = [];
       for (i = _i = 1; _i <= 21; i = ++_i) {
         _results.push((function() {
-          var _j, _results1;
+          var _j, _k, _len, _results1;
           _results1 = [];
           for (j = _j = 1; _j <= 21; j = ++_j) {
+            elements = [];
             switch (this.map[i][j]) {
               case 0:
-                element = Architecture.spawnFloor(this.level, this.mapPointSurroundings(i, j));
+                elements.push(Floor.spawn(this.level, this.mapPointSurroundings(i, j)));
                 break;
               case 1:
-                element = Architecture.spawnWall(this.level, this.mapPointSurroundings(i, j));
+                elements.push(Wall.spawn(this.level, this.mapPointSurroundings(i, j)));
                 break;
               case 2:
-                element = Architecture.spawnFloor(this.level, this.mapPointSurroundings(i, j));
+                elements.push(Architecture.spawnFloor(this.level, this.mapPointSurroundings(i, j)));
+                break;
+              case 'h':
+                elements.push(Floor.spawn(this.level, this.mapPointSurroundings(i, j)));
+                elements.push(app.hero);
             }
             tile = this.tiles[i - 1][j - 1];
-            tile.children.push(element);
+            for (_k = 0, _len = elements.length; _k < _len; _k++) {
+              element = elements[_k];
+              tile.addChild(element);
+            }
             _results1.push(this.addChild(tile));
           }
           return _results1;
@@ -264,7 +280,7 @@ initBoard = function() {
       return _results;
     },
     mapPointSurroundings: function(x, y) {
-      var i, j, surroundings, _i, _j, _ref, _ref1, _ref2, _ref3;
+      var i, j, s, surroundings, _i, _j, _ref, _ref1, _ref2, _ref3;
       if (x === 0 || x === this.map.length - 1 || y === 0 || y === this.map.length - 1) {
         return null;
       } else {
@@ -272,7 +288,9 @@ initBoard = function() {
         for (i = _i = _ref = x - 1, _ref1 = x + 1; _ref <= _ref1 ? _i <= _ref1 : _i >= _ref1; i = _ref <= _ref1 ? ++_i : --_i) {
           surroundings.push([]);
           for (j = _j = _ref2 = y - 1, _ref3 = y + 1; _ref2 <= _ref3 ? _j <= _ref3 : _j >= _ref3; j = _ref2 <= _ref3 ? ++_j : --_j) {
-            _.last(surroundings).push(this.map[i][j]);
+            s = this.map[i][j];
+            s = s !== 0 && s !== 1 ? 0 : s;
+            _.last(surroundings).push(s);
           }
         }
         return surroundings;
